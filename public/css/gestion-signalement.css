@@ -1,0 +1,219 @@
+.gestion-wrapper {
+    max-width: 1200px;
+    margin: 24px auto 40px;
+    padding: 0 16px;
+}
+
+.gestion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.gestion-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #022B3A;
+}
+
+.gestion-subtitle {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: #4f5b66;
+}
+
+.badge-role {
+    align-self: flex-start;
+    background: rgba(6,102,140,0.06);
+    color: #06668C;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Filtre ville (gestionnaire) */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.filter-bar label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2933;
+}
+
+.filter-select {
+    min-width: 180px;
+    border-radius: 999px;
+    border: 1px solid #d1d9e6;
+    padding: 8px 14px;
+    font-size: 14px;
+    background: #ffffff;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.filter-select:focus {
+    border-color: #06668C;
+    box-shadow: 0 0 0 3px rgba(6,102,140,0.16);
+}
+
+.perimetre-info {
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #4f5b66;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 6px 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+}
+
+/* Table wrapper pour scroll responsive */
+.signals-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 18px 18px 20px;
+    box-shadow: 0 14px 40px rgba(6,102,140,0.10);
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 8px;
+}
+
+.signals-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 900px;
+}
+
+.signals-table thead {
+    background: #06668C;
+    color: #ffffff;
+}
+
+.signals-table th,
+.signals-table td {
+    padding: 8px 10px;
+    text-align: left;
+}
+
+.signals-table th {
+    font-weight: 600;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+.signals-table tbody tr:nth-child(even) {
+    background: #F8FAFD;
+}
+
+.signals-table tbody tr:nth-child(odd) {
+    background: #ffffff;
+}
+
+.signals-table tbody tr:hover {
+    background: #EBF2FA;
+}
+
+.citoyen-link {
+    color: #06668C;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.citoyen-link:hover {
+    text-decoration: underline;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.statut-signale  { background: #EBF2FA; color: #06668C; }
+.statut-valide   { background: #E4F4DA; color: #2F7E27; }
+.statut-en_cours { background: #FFF4CC; color: #A47A00; }
+.statut-collecte { background: #DCE8F5; color: #055475; }
+
+.status-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 180px;
+}
+
+.status-select {
+    border-radius: 999px;
+    border: 1px solid #d1d9e6;
+    padding: 5px 10px;
+    font-size: 12px;
+    outline: none;
+    background: #ffffff;
+}
+
+.status-select:focus {
+    border-color: #06668C;
+    box-shadow: 0 0 0 2px rgba(6,102,140,0.16);
+}
+
+.btn-update {
+    border-radius: 999px;
+    border: none;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, #06668C, #427AA1);
+    color: #ffffff;
+    box-shadow: 0 6px 18px rgba(6,102,140,0.25);
+    align-self: flex-start;
+}
+
+.btn-update:hover {
+    box-shadow: 0 8px 22px rgba(6,102,140,0.35);
+    transform: translateY(-1px);
+}
+
+.no-data {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #7b8794;
+}
+
+/* Responsif */
+@media (max-width: 900px) {
+    .gestion-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .badge-role {
+        align-self: stretch;
+        justify-content: center;
+    }
+    .signals-card {
+        padding: 14px;
+    }
+}

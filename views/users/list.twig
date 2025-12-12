@@ -1,0 +1,93 @@
+{% block content %}
+    <div class="signalements-header">
+        <div>
+            <h1 class="signalements-title">Mes signalements</h1>
+            <p class="signalements-subtitle">
+                Retrouve ici l’historique de tes déclarations d’encombrants.
+            </p>
+        </div>
+
+        <div class="points-card">
+            <div class="points-card-header">
+                <span class="points-card-label">Vos points Tri’n Go</span>
+            </div>
+
+            <div class="points-card">
+                <h2>Vos points Tri’n Go</h2>
+
+                <p class="points-value">{{ pointsTotal }} pts</p>
+
+                <p class="points-subtitle">
+                    Valeur actuelle :
+                    {{ cashbackValue|number_format(2, ',', ' ') }} €
+                    ({{ (cashbackRate * 100)|number_format(0, '', ' ') }} cts / point)
+                </p>
+
+                <p class="points-text">
+                    Chaque signalement validé vous rapporte des points.
+                    Ils valorisent votre participation à la propreté de la ville.
+                </p>
+
+                <div class="points-progress">
+                    <div class="points-progress-bar">
+                        <span class="points-progress-fill" style="width: {{ progression }}%;"></span>
+                    </div>
+                    <p class="points-next">Prochain palier : {{ nextPalier }} points</p>
+                </div>
+
+                <div class="points-actions">
+                    <a href="/points/utiliser" class="btn-secondary">
+                        Utiliser mes points pour une collecte
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+            {# on garde ensuite ton tableau existant, avec juste un léger wrapper #}
+    {% if signalements.length == 0 %}
+        <p>Aucun signalement pour le moment.</p>
+    {% else %}
+        <div class="signalements-table-wrapper">
+            <table class="signalements-table">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Ville</th>
+                    <th>Code postal</th>
+                    <th>Adresse</th>
+                    <th>Photo</th>
+                    <th>Statut</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for s in signalements %}
+                    <tr>
+                        <td>{{ s.dateSignalement|date('d/m/Y H:i') }}</td>
+                        <td>{{ s.typeEncombrant }}</td>
+                        <td>{{ s.description }}</td>
+                        <td>{{ s.ville }}</td>
+                        <td>{{ s.codePostal }}</td>
+                        <td>{{ s.adresse }}</td>
+                        <td>
+                            {% if s.photoFilename %}
+                                <img src="/uploads/{{ s.photoFilename }}"
+                                     alt="Photo de l’encombrant"
+                                     class="signalement-photo">
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+              <span class="statut-badge statut-{{ s.statut }}">
+                {{ s.statut|capitalize }}
+              </span>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "layout.twig" %}
+
+{% block title %}Points utilisés{% endblock %}
+
+{% block content %}
+    <div class="points-confirm-page">
+        <h1>Points utilisés</h1>
+
+        <p>
+            Tu viens d’utiliser <strong>{{ pointsUsed }} points</strong>,
+            soit une réduction de
+            <strong>{{ euros|number_format(2, ',', ' ') }} €</strong>
+            sur ta prochaine collecte d’encombrants.
+        </p>
+
+        <p>
+            Ces points seront pris en compte pour votre prochaine utilisation
+            du compte déchèterie <strong>{{ decheterieAccountNumber }}</strong>.
+        </p>
+
+        <a href="/signalements" class="btn-secondary">
+            Retour à mes signalements
+        </a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,146 @@
+{# views/signalements/new.twig #}
+{% extends "layout.twig" %}
+
+{% block title %}Déclarer un encombrant{% endblock %}
+
+{% block content %}
+  <div class="signalement-page">
+    <h1 class="signalement-title">Déclarer un encombrant</h1>
+
+    <p id="geo-warning" class="geo-warning"></p>
+
+    {% if error %}
+      <p class="form-error">{{ error }}</p>
+    {% endif %}
+
+    <form method="post"
+          action="/signalements"
+          enctype="multipart/form-data"
+          class="signalement-form"
+          id="signalement-form">
+
+      <div class="form-row">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" required></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="typeEncombrant">Type d’encombrant</label>
+        <select id="typeEncombrant" name="typeEncombrant" required>
+          <option value="meuble">Meuble</option>
+          <option value="electromenager">Électroménager</option>
+          <option value="dechets_verts">Déchets verts</option>
+          <option value="plastiques">Plastique</option>
+          <option value="bois">Bois</option>
+          <option value="verre">Verre</option>
+        </select>
+      </div>
+
+      <div class="form-row form-row-inline">
+        <div class="form-col">
+          <label for="ville">Ville</label>
+          <input
+                  type="text"
+                  id="ville"
+                  name="ville"
+                  required
+                  value="{{ currentUser.ville or '' }}"
+          >
+        </div>
+
+        <div class="form-col">
+          <label for="codePostal">Code postal</label>
+          <input
+                  type="text"
+                  id="codePostal"
+                  name="codePostal"
+                  required
+                  value="{{ currentUser.codePostal or '' }}"
+          >
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="adresse">Adresse / emplacement</label>
+        <div class="adresse-wrapper">
+          <input
+                  type="text"
+                  id="adresse"
+                  name="adresse"
+                  required
+                  value="{{ currentUser.adresse or '' }}"
+          >
+          {# la liste d’autocomplétion est générée en JS, pas besoin de div ici #}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="photo">Photo de l’encombrant (optionnel)</label>
+
+        <div class="file-upload" id="photo-dropzone">
+          {# input réel (caché visuellement mais cliquable) #}
+          <input
+                  type="file"
+                  id="photo"
+                  name="photo"
+                  accept="image/*"
+          >
+
+          <div class="file-upload-inner">
+            <div class="file-upload-icon">📷</div>
+            <p class="file-upload-title">Dépose une photo ici</p>
+            <p class="file-upload-help">ou clique pour choisir un fichier</p>
+            <p class="file-upload-filename" id="photo-filename">
+              Aucune image sélectionnée
+            </p>
+          </div>
+        </div>
+
+        <div class="photo-preview-wrapper" id="photo-preview-wrapper" style="display:none;">
+          <img id="photo-preview" alt="Prévisualisation de la photo de l’encombrant">
+          <button type="button" class="photo-preview-remove" id="photo-remove">
+            Retirer l’image
+          </button>
+        </div>
+      </div>
+
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Envoyer le signalement</button>
+      </div>
+    </form>
+  </div>
+
+  {# POPUP DE CONFIRMATION #}
+  <div id="confirm-modal-backdrop" class="confirm-backdrop" aria-hidden="true">
+    <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+      <h2 id="confirm-modal-title">Confirmer votre signalement</h2>
+
+      <p class="confirm-text">
+        Merci de vérifier les informations avant d’envoyer votre signalement.
+      </p>
+
+      <div class="confirm-summary">
+        <p><span>Adresse :</span> <span id="confirm-adresse"></span></p>
+        <p><span>Ville :</span> <span id="confirm-ville"></span></p>
+        <p><span>Code postal :</span> <span id="confirm-cp"></span></p>
+      </div>
+
+      <div id="confirm-warning" class="confirm-warning"></div>
+
+      <div class="confirm-actions">
+        <button type="button" id="confirm-cancel" class="btn-secondary">
+          Annuler
+        </button>
+        <button type="button" id="confirm-validate" class="btn-primary">
+          Confirmer et envoyer
+        </button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ parent() }}
+  <script src="/javascripts/geoloc-encombrant.js"></script>
+{% endblock %}

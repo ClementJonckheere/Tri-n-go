@@ -1,0 +1,288 @@
+/* Reset léger */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f7fa;
+    color: #111827;
+    overflow-x: hidden;
+}
+/* =========================================
+   NAVBAR "HERO" STYLE (vert + texte blanc)
+   ========================================= */
+
+.topbar {
+    background: #ffffff;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+/* Marque / logo */
+.brand {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.brand-main {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    color: #70be55;
+}
+
+/* Liens de nav au centre */
+.nav-links {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.nav-link {
+    position: relative;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #e9fbe2;
+    text-decoration: none;
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.12s ease;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.nav-link-ghost {
+    opacity: 0.9;
+}
+/* Bouton "Contactez-nous" : pill clair */
+.btn-contact {
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    background: transparent;
+    font-size: 14px;
+    text-decoration: none;
+    color: #4b5563;
+    padding: 4px 0;
+}
+
+/* Bouton déconnexion (déjà défini, rappel ici pour que tout soit regroupé) */
+.btn-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 22px;
+    border-radius: 999px;
+    background: #101820;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    transition: transform 0.12s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-logout:hover {
+    background: #1b2633;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+}
+
+
+
+
+/* Brand */
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.brand-mark {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #679436;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.brand-sub {
+    font-weight: 500;
+    color: #111827;
+    font-size: 20px;
+}
+
+/* Liens centraux */
+.brand-logo {
+    height: 42px;
+    display: block;
+}
+
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+    justify-content: center;
+}
+
+.nav-link {
+    font-size: 14px;
+    text-decoration: none;
+    color: #4b5563;
+    padding: 4px 0;
+    position: relative;
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: #06668C;
+    transition: width 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #06668C;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Zone droite */
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-user {
+    font-size: 13px;
+    color: #4b5563;
+}
+
+.nav-role {
+    color: #9ca3af;
+}
+
+/* Boutons */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.btn-primary {
+    background: #679436;
+    color: #ffffff;
+    border-color: #4d6d2b;
+}
+
+.btn-primary:hover {
+    background: #A4BD01;
+    border-color: #055170;
+    box-shadow: 0 8px 18px rgba(6, 102, 140, 0.25);
+}
+
+.btn-outline {
+    background: #ffffff;
+    color: #06668C;
+    border-color: #cbd5f5;
+}
+
+.btn-outline:hover {
+    border-color: #06668C;
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+}
+
+.btn-text {
+    background: transparent;
+    color: #4b5563;
+}
+
+.btn-text:hover {
+    color: #06668C;
+}
+
+/* Contenu page */
+
+.page-main {
+    width: auto;
+    margin: auto;
+    padding: 0 24px 48px;
+}
+
+#login {
+    width: 100%;
+}
+/* Responsive */
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .nav-links {
+        flex-basis: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        row-gap: 6px;
+    }
+
+    .nav-actions {
+        order: 3;
+    }
+}

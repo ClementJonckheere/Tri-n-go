@@ -1,0 +1,69 @@
+{# views/auth/login.twig #}
+{% extends "layout.twig" %}
+
+{% block title %}Connexion – MP3 encombrants{% endblock %}
+
+{% block content %}
+    <div class="auth-page">
+        <div class="auth-card">
+            <div class="auth-card-left">
+                <div class="auth-logo-circle">
+                    Tri'n go
+                </div>
+            </div>
+
+            {# Partie droite avec le formulaire #}
+            <div class="auth-card-right">
+                <h1 class="auth-title">
+                    Nous sommes <span>Tri’n Go</span>
+                </h1>
+                <p class="auth-subtitle">
+                    Connectez-vous pour déclarer les encombrants de votre ville.
+                </p>
+
+                <form method="post" action="/login" class="auth-form">
+                    <div class="auth-field">
+                        <label for="email">Email</label>
+                        <div class="auth-input-wrapper">
+                            <span class="auth-input-icon">✉</span>
+                            <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    required
+                                    placeholder="votre@email.fr"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="password">Mot de passe</label>
+                        <div class="auth-input-wrapper">
+                            <span class="auth-input-icon">🔒</span>
+                            <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    required
+                                    placeholder="Votre mot de passe"
+                            >
+                        </div>
+                    </div>
+
+                    {% if error %}
+                        <p class="auth-error">{{ error }}</p>
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-primary" id="login">
+                        Se connecter
+                    </button>
+
+                    <p class="auth-secondary">
+                        Pas encore de compte citoyen ?
+                        <a href="/register">Créer un compte</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <h1>Modifier l’utilisateur</h1>
+
+    <form method="post" action="/admin/utilisateurs/{{ editUser._id }}/edit">
+        <div>
+            <label for="name">Nom</label><br>
+            <input type="text" id="name" name="name" value="{{ editUser.name }}" required>
+        </div>
+
+        <div>
+            <label for="email">Email</label><br>
+            <input type="email" id="email" name="email" value="{{ editUser.email }}" required>
+        </div>
+
+        <div>
+            <label for="role">Rôle</label><br>
+            <select id="role" name="role">
+                <option value="citoyen"      {% if editUser.role == 'citoyen' %}selected{% endif %}>Citoyen</option>
+                <option value="agent"        {% if editUser.role == 'agent' %}selected{% endif %}>Agent</option>
+                <option value="chef_agent"   {% if editUser.role == 'chef_agent' %}selected{% endif %}>Chef d’agent</option>
+                <option value="gestionnaire" {% if editUser.role == 'gestionnaire' %}selected{% endif %}>Gestionnaire</option>
+            </select>
+        </div>
+
+        <div>
+            <label>
+                <input type="checkbox" id="isActive" name="isActive" {% if editUser.isActive %}checked{% endif %}>
+                Compte actif
+            </label>
+        </div>
+
+        {# Points uniquement pour les citoyens #}
+        {% if editUser.role == 'citoyen' %}
+            <div>
+                <label for="pointsTotal">Points (citoyen)</label><br>
+                <input type="number" id="pointsTotal" name="pointsTotal" value="{{ editUser.pointsTotal|default(0) }}">
+            </div>
+        {% endif %}
+
+        <div>
+            <label for="perimetreVille">Ville / périmètre</label><br>
+            <input type="text"
+                   id="perimetreVille"
+                   name="perimetreVille"
+                   value="{{ editUser.perimetreVille }}">
+        </div>
+
+        {# Chef d’agent pour un AGENT #}
+        {% if editUser.role == 'agent' %}
+            <div>
+                <label for="chefAgentId">Chef d’agent</label><br>
+                <select id="chefAgentId" name="chefAgentId">
+                    <option value="">-- Aucun chef --</option>
+                    {% if chefs %}
+                        {% for c in chefs %}
+                            <option value="{{ c._id }}"
+                                    {% if currentChefId and currentChefId == c._id %}selected{% endif %}>
+                                {{ c.name }}{% if c.perimetreVille %} ({{ c.perimetreVille }}){% endif %}
+                            </option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+        {% endif %}
+
+        {# Équipe d’un chef d’agent #}
+        {% if editUser.role == 'chef_agent' %}
+            <div style="margin-top: 20px;">
+                <p><strong>Équipe d’agents rattachés à {{ editUser.name }} :</strong></p>
+
+                {% if agents and agents.length > 0 %}
+                    {% for a in agents %}
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                            <span style="flex:1;">
+                                {{ a.name }}
+                                {% if a.perimetreVille %} – {{ a.perimetreVille }}{% endif %}
+                            </span>
+
+                            <form method="post"
+                                  action="/admin/utilisateurs/{{ a._id }}/delete"
+                                  onsubmit="return confirm('Supprimer cet agent ?');">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Aucun agent rattaché à ce chef.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <br>
+        <button type="submit">Enregistrer</button>
+        <a href="/admin/utilisateurs">Annuler</a>
+    </form>
+{% endblock %}

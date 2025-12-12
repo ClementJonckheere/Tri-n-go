@@ -1,0 +1,154 @@
+{# views/home-citoyen.twig #}
+{% extends "layout.twig" %}
+
+{% block title %}Bienvenue sur Tri’n Go{% endblock %}
+
+{% block content %}
+
+    {% set isLoggedIn = session is defined and session.user is defined %}
+    {% set isCitoyen = isLoggedIn and session.user.role == 'citoyen' %}
+
+    {# HERO ÉCO FULL-WIDTH #}
+    <section class="eco-hero">
+        <div class="eco-hero-inner">
+            {# Colonne gauche : les images #}
+            <div class="eco-hero-visual">
+                <div class="eco-hero-img-main">
+                    <img src="/images/ordure.png" alt="Camion de collecte des déchets en ville">
+                </div>
+                <div class="eco-hero-img-secondary">
+                    <img src="/images/eau-eco.png" alt="Gouttes d’eau sur une feuille, symbole d’écologie">
+                </div>
+            </div>
+
+            {# Colonne droite : le texte #}
+            <div class="eco-hero-text">
+                <div class="eco-hero-pill">POUR UNE VILLE PLUS PROPRE</div>
+
+                <p class="eco-hero-hello">
+                    {% if isLoggedIn %}
+                        Bonjour {{ session.user.name }},
+                    {% else %}
+                        Bienvenue sur Tri’n Go,
+                    {% endif %}
+                </p>
+
+                <p class="eco-hero-lead">
+                    Tri’n Go est une plateforme citoyenne pour signaler facilement les dépôts d’encombrants
+                    dans ta ville. Chaque déclaration aide les services à intervenir plus vite,
+                    limite les dépôts sauvages et protège nos espaces communs.
+                </p>
+
+                <p class="eco-hero-bullets">
+                    <strong>Moins de déchets dans la rue</strong>, plus de confort pour les habitants.<br>
+                    <strong>Un geste écolo</strong> qui favorise le tri, le réemploi et le recyclage.<br>
+                    <strong>Des points Tri’n Go</strong> pour valoriser l’engagement citoyen.
+                </p>
+            </div>
+        </div>
+
+        {# Bandeau du bas façon "SHOP NOW" #}
+        <div class="eco-hero-bottom">
+            <div class="eco-hero-words">
+                <span class="eco-hero-word word-1">SIGNALER</span>
+                <span class="eco-hero-word word-2">RESPIRER</span>
+            </div>
+
+            <div class="eco-hero-bottom-cta">
+                {% if isCitoyen %}
+                    <p class="eco-hero-bottom-text">
+                        Retrouve ton tableau de bord, tes points et tes derniers signalements.
+                    </p>
+                    <a href="/dashboard-citoyen" class="eco-hero-arrow-link">
+                        Accéder à mon tableau de bord
+                        <span class="eco-hero-arrow">↓</span>
+                    </a>
+                {% elseif isLoggedIn %}
+                    <p class="eco-hero-bottom-text">
+                        Accède directement à la gestion des signalements de ta ville.
+                    </p>
+                    <a href="/signalements/gestion" class="eco-hero-arrow-link">
+                        Aller à la gestion des signalements
+                        <span class="eco-hero-arrow">↓</span>
+                    </a>
+                {% else %}
+                    <p class="eco-hero-bottom-text">
+                        Crée ton compte citoyen et commence à déclarer les encombrants près de chez toi.
+                    </p>
+                    <a href="/register" class="eco-hero-arrow-link">
+                        Créer mon compte Tri’n Go
+                        <span class="eco-hero-arrow">↓</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    {# SECTION RÉASSURANCE + CHIFFRES #}
+    <section class="home-reassurance">
+        <div class="home-reassurance-inner">
+            <div class="home-reassurance-head">
+                <h2>Un outil simple, utile et rassurant</h2>
+                <p>
+                    Tri’n Go est pensé comme un compagnon du quotidien pour garder la ville propre,
+                    sans prise de tête. Les signalements citoyens permettent de mieux cibler les interventions
+                    et d’améliorer le cadre de vie de tout le monde.
+                </p>
+            </div>
+
+            <div class="home-stats-grid">
+                <div class="home-stat-card">
+                    <p class="home-stat-label">Déchets récupérés</p>
+                    <p class="home-stat-value">3,2&nbsp;tonnes</p>
+                    <p class="home-stat-caption">
+                        d’encombrants collectés grâce aux signalements citoyens
+                        (simulation pédagogique).
+                    </p>
+                </div>
+
+                <div class="home-stat-card">
+                    <p class="home-stat-label">Signalements traités</p>
+                    <p class="home-stat-value">482</p>
+                    <p class="home-stat-caption">
+                        dépôts pris en charge par les équipes municipales.
+                    </p>
+                </div>
+
+                <div class="home-stat-card">
+                    <p class="home-stat-label">Citoyens engagés</p>
+                    <p class="home-stat-value">+120</p>
+                    <p class="home-stat-caption">
+                        habitantes et habitants impliqués pour améliorer leur quartier.
+                    </p>
+                </div>
+            </div>
+
+            <div class="home-reassurance-grid">
+                <div class="home-reassurance-item">
+                    <h3>Un service pensé pour la ville</h3>
+                    <p>
+                        Tri’n Go s’inscrit dans une logique de <strong>service public</strong> :
+                        rendre les rues plus propres, mieux suivre les dépôts et optimiser les tournées de collecte.
+                    </p>
+                </div>
+
+                <div class="home-reassurance-item">
+                    <h3>Des données protégées</h3>
+                    <p>
+                        Tes informations sont utilisées uniquement dans le cadre du suivi des encombrants :
+                        <strong>pas de publicité</strong>, pas de revente de données, uniquement une meilleure qualité de service.
+                    </p>
+                </div>
+
+                <div class="home-reassurance-item">
+                    <h3>Un projet pédagogique</h3>
+                    <p>
+                        Cette plateforme est une <strong>maquette pédagogique</strong> :
+                        elle illustre comment le numérique peut accompagner la transition écologique à l’échelle d’une ville.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

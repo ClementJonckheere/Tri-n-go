@@ -1,0 +1,75 @@
+{% extends "layout.twig" %}
+
+{% block title %}Fiche citoyen{% endblock %}
+
+{% block content %}
+    <h1>Fiche citoyen</h1>
+
+    <h2>{{ citoyen.name }}</h2>
+    <p>
+        <strong>Email :</strong> {{ citoyen.email }}<br>
+        {% if citoyen.adresse %}
+            <strong>Adresse :</strong> {{ citoyen.adresse }}, {{ citoyen.codePostal }} {{ citoyen.ville }}<br>
+        {% endif %}
+        <strong>Date de création du compte :</strong>
+        {% if citoyen.createdAt %}
+        {{ citoyen.createdAt|date('d/m/Y H:i') }}
+    {% else %}
+        (non disponible)
+        {% endif %}<br>
+        <strong>Points :</strong> {{ citoyen.pointsTotal or 0 }}<br>
+        <strong>Nombre de signalements :</strong> {{ nbSignalements }}<br>
+        <strong>Dernier signalement :</strong>
+        {% if lastSignalementDate %}
+            {{ lastSignalementDate|date('d/m/Y H:i') }}
+        {% else %}
+            Aucun signalement
+        {% endif %}
+    </p>
+
+    <hr>
+
+    <h3>Signalements</h3>
+
+    {% if signalements.length == 0 %}
+        <p>Aucun signalement pour ce citoyen.</p>
+    {% else %}
+        {% for s in signalements %}
+            <div style="border:1px solid #ccc; padding:0.5rem; margin-bottom:1rem;">
+                <p>
+                    <strong>Date :</strong> {{ s.dateSignalement|date('d/m/Y H:i') }}<br>
+                    <strong>Adresse :</strong> {{ s.adresse }}, {{ s.codePostal }} {{ s.ville }}<br>
+                    <strong>Type :</strong> {{ s.typeEncombrant }}<br>
+                    <strong>Statut actuel :</strong> {{ s.statut }}<br>
+                </p>
+
+                {# Historique des statuts #}
+                <h4>Historique des statuts</h4>
+                {% if s.historiqueStatuts and s.historiqueStatuts.length > 0 %}
+                    <ul>
+                        {% for h in s.historiqueStatuts %}
+                            <li>
+                                {{ h.changedAt|date('d/m/Y H:i') }} :
+                                {% if h.from %}
+                                    {{ h.from }} → {{ h.to }}
+                                {% else %}
+                                    Création → {{ h.to }}
+                                {% endif %}
+                                {% if h.changedBy %}
+                                    (par {{ h.changedBy.name }} – {{ h.changedBy.role }})
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucun historique de statut.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <p>
+        <a href="/signalements/gestion">← Retour à la gestion des signalements</a>
+    </p>
+
+{% endblock %}

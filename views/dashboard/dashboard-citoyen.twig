@@ -1,0 +1,196 @@
+{# views/dashboard-citoyen.twig #}
+{% extends "layout.twig" %}
+
+{% block title %}Tableau de bord citoyen - Tri’n Go{% endblock %}
+
+{% block content %}
+
+    <div id="citoyen-main" class="citoyen-wrapper">
+
+        <div class="citoyen-grid">
+            {# COLONNE GAUCHE : actions + derniers signalements #}
+            <div class="left-col">
+                <div class="card cta-card">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title">Déclarer un encombrant</h2>
+                            <p class="card-subtitle">
+                                Prenez une photo, indiquez l’adresse, nous nous occupons du reste.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="cta-buttons">
+                        <a href="/signalements/nouveau" class="btn-primary-big">
+                            Déclarer un nouvel encombrant
+                        </a>
+                        <a href="/signalements" class="btn-secondary-ghost">
+                            Voir mes signalements
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card citoyen-card" style="margin-top: 18px;">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title">Mes derniers signalements</h2>
+                            <p class="card-subtitle">
+                                Un aperçu de vos demandes les plus récentes.
+                            </p>
+                        </div>
+                        <a href="/signalements" class="card-link">Tout voir</a>
+                    </div>
+
+                    {% if recentSignalements and recentSignalements.length > 0 %}
+                        <div class="signals-list">
+                            <div class="signal-row signal-row-header">
+                                <div>Date</div>
+                                <div>Type</div>
+                                <div>Adresse</div>
+                                <div>Statut</div>
+                            </div>
+
+                            {% for s in recentSignalements %}
+                                <div class="signal-row">
+                                    <div>{{ s.createdAt|date("d/m/Y H:i") }}</div>
+                                    <div>{{ s.typeEncombrant }}</div>
+                                    <div>{{ s.adresse|default('-') }}</div>
+                                    <div>
+                                        {% set statusClass = 'status-' ~ s.statut %}
+                                        <span class="signal-status-badge {{ statusClass }}">
+                                        {{ s.statut }}
+                                    </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="signal-empty">
+                            Vous n’avez pas encore déclaré d’encombrant. Commencez avec le bouton ci-dessus !
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# COLONNE DROITE : résumé points + éco-gestes #}
+            <div class="right-col">
+                <div class="card points-resume-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Mes points Tri’n Go</h2>
+                    </div>
+
+                    <div class="points-resume-body">
+                        <div class="points-value">
+                            {{ pointsTotal }} pts
+                        </div>
+                        <p class="points-caption">
+                            Vos points récompensent votre participation à la propreté de la ville.
+                        </p>
+
+                        <div class="points-mini-block">
+                            <div class="points-bar-wrap points-bar-mini">
+                                <div class="points-bar-bg">
+                                    <div class="points-bar-fill" style="width: {{ progression|default(0) }}%;"></div>
+                                </div>
+                            </div>
+                            <p class="points-mini-caption">
+                                Prochain palier : <strong>{{ nextPalier|default(100) }} pts</strong>
+                            </p>
+                        </div>
+
+                        <a href="#points" class="btn-link-points">
+                            Utiliser mes points pour ma prochaine collecte
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card citoyen-card" style="margin-top: 18px;">
+                    <div class="card-header">
+                        <h2 class="card-title">Éco-gestes utiles</h2>
+                    </div>
+                    <ul class="eco-list">
+                        <li>Déposez vos encombrants le jour indiqué par la collecte pour éviter les dépôts sauvages.</li>
+                        <li>Les objets encore utilisables peuvent être donnés à une association ou mis en réemploi.</li>
+                        <li>Privilégiez le réemploi, la réparation et le don avant la mise en déchèterie.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {# SECTION UTILISATION DES POINTS (détaillée, UNIQUE) #}
+        <section class="points-page" id="points">
+            <h2 class="points-title">Utiliser mes points Tri’n Go</h2>
+
+            <section class="points-summary-card">
+                <p class="points-summary-label">Solde disponible</p>
+                <p class="points-summary-value">{{ pointsTotal }} pts</p>
+
+                <p class="points-summary-rate">
+                    Taux actuel : {{ (rate * 100) | number_format(2, ',', ' ') }} € par 100 points<br>
+                    Valeur maximale utilisable : {{ maxEuros | number_format(2, ',', ' ') }} €
+                </p>
+            </section>
+
+            {% if error %}
+                <div class="alert alert-error">{{ error }}</div>
+            {% endif %}
+            {% if success %}
+                <div class="alert alert-success">{{ success }}</div>
+            {% endif %}
+
+            <form method="post" action="/points/utiliser" class="points-form">
+                <div class="form-row">
+                    <label for="pointsToUse">Nombre de points à utiliser</label>
+                    <input
+                            type="number"
+                            id="pointsToUse"
+                            name="pointsToUse"
+                            min="1"
+                            max="{{ pointsTotal }}"
+                            value="{{ pointsTotal }}"
+                            required
+                    >
+                    <p class="help-text">
+                        Soit environ
+                        <strong>{{ (pointsTotal * rate) | number_format(2, ',', ' ') }} €</strong>
+                        pour votre prochaine collecte.
+                    </p>
+                </div>
+
+                <hr class="divider">
+
+                <h3 class="section-title">Compte déchèterie</h3>
+                <p class="help-text">
+                    Il s’agit d’une maquette : ici, on simule simplement le lien avec votre compte déchèterie.
+                    Aucun prélèvement réel n’est effectué.
+                </p>
+
+                <div class="form-row">
+                    <label for="decheterieAccountNumber">Numéro de compte déchèterie</label>
+                    <input
+                            type="text"
+                            id="decheterieAccountNumber"
+                            name="decheterieAccountNumber"
+                            value="{{ decheterieAccountNumber }}"
+                            placeholder="Ex : AAMI-00012345"
+                            required
+                    >
+                </div>
+
+                <div class="form-row checkbox-row">
+                    <label>
+                        <input type="checkbox" name="saveAccount">
+                        Mémoriser ce compte pour les prochaines utilisations
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">
+                        Utiliser mes points pour ma prochaine collecte
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+{% endblock %}

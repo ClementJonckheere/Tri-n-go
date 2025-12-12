@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Encombrants{% endblock %}</title>
+
+    {# Feuille de style globale #}
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/citoyen.css">
+    <link rel="stylesheet" href="/css/gestion-signalement.css">
+    <link rel="stylesheet" href="/css/signalement.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+{% if session is defined and session.user is defined %}
+    {% set user = session.user %}
+    {% set role = user.role %}
+{% else %}
+    {% set user = null %}
+    {% set role = null %}
+{% endif %}
+
+<header class="topbar">
+    <div class="nav-container">
+        {# Logo / marque #}
+        <a href="/" class="brand">
+            <span class="brand-main">Tri’n Go</span>
+        </a>
+
+        {# Liens de navigation centraux #}
+        <nav class="nav-links">
+            {% if user and role != 'citoyen' %}
+                <a href="/" class="nav-link">Dashboard</a>
+                <a href="/signalements/gestion" class="nav-link">Signalements</a>
+            {% endif %}
+
+            {% if user and role == 'citoyen' %}
+                <a href="/signalements" class="nav-link">Mes signalements</a>
+                <a href="/signalements/nouveau" class="nav-link">Déclarer un encombrant</a>
+                <a href="/dashboard-citoyen" class="nav-link">Tabeau de bord</a
+            {% endif %}
+
+            {% if user and role == 'gestionnaire' %}
+                <a href="/admin/users" class="nav-link">Utilisateurs</a>
+            {% endif %}
+        </nav>
+
+        {# Zone droite : Contact + déconnexion / login #}
+        <div class="nav-actions">
+            {% if user %}
+                <a href="#contact" class="nav-link">Contactez-nous</a>
+                <a href="/logout" class="btn-logout">Se déconnecter</a>
+            {% else %}
+                <a href="#contact" class="nav-link">Contactez-nous</a>
+                <a href="/login" class="nav-link nav-link-ghost">Connexion</a>
+                <a href="/register" class="btn-logout">Créer un compte</a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+
+
+<main class="page-main">
+    {% block content %}{% endblock %}
+</main>
+
+{% if user and role == 'citoyen' %}
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-col footer-brand">
+                <p class="footer-logo">Tri’n Go</p>
+                <p class="footer-text">
+                    Une plateforme citoyenne pour déclarer les encombrants,
+                    suivre les interventions et rendre la ville plus propre, ensemble.
+                </p>
+            </div>
+
+            <div class="footer-col footer-links">
+                <h4>Navigation</h4>
+                <ul>
+                    <li><a href="/dashboard-citoyen">Tableau de bord</a></li>
+                    <li><a href="/signalements">Mes signalements</a></li>
+                    <li><a href="/signalements/nouveau">Déclarer un encombrant</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col footer-info">
+                <h4>À propos</h4>
+                <p>
+                    Tri’n Go est un projet pédagogique fictif,
+                    imaginé pour illustrer comment le numérique peut accompagner
+                    la transition écologique au niveau local.
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© {{ "now"|date("Y") }} Tri’n Go – Démo pédagogique</span>
+            <span>Pour une ville plus propre 🌿</span>
+        </div>
+    </footer>
+{% endif %}
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

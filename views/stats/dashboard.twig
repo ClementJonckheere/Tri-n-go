@@ -1,0 +1,207 @@
+{% extends "layout.twig" %}
+
+{% block title %}Dashboard statistiques{% endblock %}
+
+{% block content %}
+    <div class="stats-wrapper">
+        <div class="stats-header">
+            <div class="stats-title-block">
+                <h1>Dashboard statistiques</h1>
+                <p>Vue d’ensemble des agents et des clients</p>
+            </div>
+
+            {% if not allowPerimetreFilter and perimetreVille %}
+                <div class="stats-badge">
+                    Périmètre : <strong>{{ perimetreVille }}</strong>
+                </div>
+            {% endif %}
+        </div>
+
+        {# ------- FILTRE PÉRIMÈTRE ------- #}
+        {% if allowPerimetreFilter %}
+            <form method="get" action="/" class="filter-card">
+                <label for="perimetreVille">Périmètre (ville) :</label>
+
+                <select id="perimetreVille" name="perimetreVille" class="filter-select">
+                    <option value="">Tous les périmètres</option>
+                    {% for p in perimetres %}
+                        <option value="{{ p }}" {% if perimetreVille == p %}selected{% endif %}>
+                            {{ p }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="btn-filter-primary">
+                    Appliquer le filtre
+                </button>
+
+                {% if perimetreVille %}
+                    <a href="/" class="btn-filter-reset">Réinitialiser</a>
+                {% endif %}
+            </form>
+        {% else %}
+            {% if not perimetreVille %}
+                <p class="perimetre-info">
+                    <em>Aucun périmètre défini pour votre compte. Contactez un gestionnaire pour le définir.</em>
+                </p>
+            {% endif %}
+        {% endif %}
+
+        {# ------- KPI ------- #}
+        <section class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-label">Total des signalements</div>
+                <div class="kpi-value">{{ kpi.totalSignalements }}</div>
+                <span class="kpi-tag">Global</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Signalements validés</div>
+                <div class="kpi-value">{{ kpi.totalValides }}</div>
+                <span class="kpi-tag">Traitement</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Nombre de citoyens</div>
+                <div class="kpi-value">{{ kpi.totalCitoyens }}</div>
+                <span class="kpi-tag">Participation</span>
+            </div>
+        </section>
+
+        {# ------- Volume par mois ------- #}
+        <section class="stats-section">
+            <h2>Volume de signalements par mois</h2>
+            <p class="section-subtitle">
+                Permet de suivre la charge globale et les pics d’activité.
+            </p>
+
+            {% if volumeParMois.length == 0 %}
+                <p class="empty-text">Aucune donnée disponible pour cette période / ce périmètre.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                        <tr>
+                            <th>Période (YYYY-MM)</th>
+                            <th class="col-number">Nombre de signalements</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in volumeParMois %}
+                            <tr>
+                                <td>{{ row.periode }}</td>
+                                <td class="col-number">{{ row.total }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </section>
+
+        {# ------- Répartition par type ------- #}
+        <section class="stats-section">
+            <h2>Répartition par type d’encombrant</h2>
+            <p class="section-subtitle">
+                Comprendre quels types d’encombrants sont les plus fréquents.
+            </p>
+
+            {% if repartitionTypes.length == 0 %}
+                <p class="empty-text">Aucune donnée.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th class="col-number">Nombre de signalements</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in repartitionTypes %}
+                            <tr>
+                                <td>{{ row.type }}</td>
+                                <td class="col-number">{{ row.total }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </section>
+
+        {# ------- Classement citoyens ------- #}
+        <section class="stats-section">
+            <h2>Top 10 des citoyens par points</h2>
+            <p class="section-subtitle">
+                Mets en valeur les citoyens les plus impliqués.
+            </p>
+
+            {% if classementCitoyens.length == 0 %}
+                <p class="empty-text">Aucun citoyen avec des points pour le moment.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                        <tr>
+                            <th>Citoyen</th>
+                            <th>Email</th>
+                            <th class="col-number">Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for c in classementCitoyens %}
+                            <tr>
+                                <td>{{ c.name }}</td>
+                                <td>{{ c.email }}</td>
+                                <td class="col-number">{{ c.points }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </section>
+
+        {# ------- Volume par agent ------- #}
+        <section class="stats-section">
+            <h2>Volume de signalements validés par agent</h2>
+            <p class="section-subtitle">
+                Indicateur d’activité par agent et par périmètre.
+            </p>
+
+            {% if volumeParAgent.length == 0 %}
+                <p class="empty-text">Aucun traitement trouvé.</p>
+            {% else %}
+                <div class="table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                        <tr>
+                            <th>Agent</th>
+                            <th>Rôle</th>
+                            <th>Périmètre</th>
+                            <th class="col-number">Signalements validés</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for a in volumeParAgent %}
+                            <tr>
+                                <td>{{ a.name }}</td>
+                                <td>
+                                    {% set roleClass =
+                                        a.role == 'agent' ? 'badge-role-agent' :
+                                        (a.role == 'chef_agent' ? 'badge-role-chef' :
+                                        (a.role == 'gestionnaire' ? 'badge-role-gestionnaire' : '')) %}
+                                    <span class="badge-role {{ roleClass }}">
+                                        {{ a.role }}
+                                    </span>
+                                </td>
+                                <td>{{ a.perimetreVille|default('-') }}</td>
+                                <td class="col-number">{{ a.totalValides }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+{% endblock %}

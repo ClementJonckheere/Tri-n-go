@@ -1,0 +1,241 @@
+body {
+    background: #EBF2FA;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.dashboard-wrapper {
+    max-width: 1100px;
+    margin: 62px auto;
+    padding: 0 16px 40px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.6fr;
+    gap: 24px;
+}
+
+/* Carte */
+.card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 22px 24px;
+    box-shadow: 0 14px 40px rgba(6,102,140,0.10);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #022B3A;
+    margin: 0;
+}
+
+.card-subtitle {
+    font-size: 13px;
+    color: #6b7785;
+    margin: 0;
+}
+
+.card-link {
+    font-size: 13px;
+    color: #06668C;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.card-link:hover {
+    text-decoration: underline;
+}
+
+/* En-tête */
+.welcome-card {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.welcome-main h1 {
+    font-size: 24px;
+    margin: 0 0 4px;
+    color: #022B3A;
+}
+
+.welcome-main h1 span {
+    color: #06668C;
+}
+
+.welcome-main p {
+    margin: 0;
+    color: #4f5b66;
+    font-size: 14px;
+}
+
+.welcome-pill {
+    align-self: flex-start;
+    background: rgba(6,102,140,0.06);
+    color: #06668C;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* CTA principal */
+.cta-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.btn-primary-big {
+    border: none;
+    border-radius: 999px;
+    padding: 12px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, #70be55, #53945c);
+    color: #ffffff;
+    box-shadow: 0 10px 28px rgba(6,102,140,0.35);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn-primary-big:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 34px rgba(6,102,140,0.42);
+}
+
+.btn-secondary-ghost {
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 14px;
+    border: 1px solid rgba(6,102,140,0.22);
+    background: #ffffff;
+    color: #06668C;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-secondary-ghost:hover {
+    background: rgba(6,102,140,0.03);
+}
+
+/* Bloc points */
+.points-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #679436;
+}
+
+.points-caption {
+    font-size: 13px;
+    color: #4f5b66;
+    margin-top: 4px;
+}
+
+.points-bar-wrap {
+    margin-top: 12px;
+}
+
+.points-bar-bg {
+    height: 10px;
+    border-radius: 999px;
+    background: #EBF2FA;
+    overflow: hidden;
+}
+
+.points-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #679436, #A4BD01);
+    max-width: 100%;
+    transition: width .3s ease;
+}
+
+/* Derniers signalements */
+
+.signals-list {
+    margin-top: 6px;
+    border-top: 1px solid #EBF2FA;
+}
+
+.signal-row {
+    display: grid;
+    grid-template-columns: 1.1fr 1.2fr 0.9fr 0.8fr;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid #F2F5FC;
+    font-size: 13px;
+    align-items: center;
+}
+
+.signal-row-header {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7785;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    border-bottom: 1px solid #EBF2FA;
+}
+
+.signal-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status-signale   { background: #EBF2FA; color: #06668C; }
+.status-en_cours  { background: #FFF4CC; color: #A47A00; }
+.status-valide    { background: #E4F4DA; color: #2F7E27; }
+.status-refuse    { background: #FCE4E4; color: #B43333; }
+
+.signal-empty {
+    font-size: 13px;
+    color: #7b8794;
+    padding: 10px 0;
+}
+
+/* Bloc éco gestes */
+.eco-list {
+    margin: 10px 0 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: #4f5b66;
+}
+
+.eco-list li {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 960px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}

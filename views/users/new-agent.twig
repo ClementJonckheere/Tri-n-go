@@ -1,0 +1,56 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <h1>Créer un agent ou chef d’agent</h1>
+
+    {% if error %}
+        <p style="color:red">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" action="/admin/agents">
+        <div>
+            <label for="name">Nom</label><br>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div>
+            <label for="email">Email</label><br>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div>
+            <label for="password">Mot de passe</label><br>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div>
+            <label for="role">Type d’utilisateur</label><br>
+            <select id="role" name="role">
+                <option value="agent">Agent</option>
+                <option value="chef_agent">Chef d’agent</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="perimetreVille">Ville / périmètre géré</label><br>
+            <input type="text" id="perimetreVille" name="perimetreVille" placeholder="Ex : Amiens">
+        </div>
+
+        <div>
+            <label for="chefAgentId">Chef d’agent (si agent simple)</label><br>
+            <select id="chefAgentId" name="chefAgentId">
+                <option value="">-- Aucun / Chef non défini --</option>
+                {% if chefs %}
+                    {% for c in chefs %}
+                        <option value="{{ c._id }}">
+                            {{ c.name }}{% if c.perimetreVille %} ({{ c.perimetreVille }}){% endif %}
+                        </option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+
+        <button type="submit">Créer</button>
+        <a href="/admin/utilisateurs">Annuler</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,940 @@
+/* =============================
+   HERO ÉCO "OK DRUGS" STYLE
+   ============================= */
+.eco-hero {
+    background: #70be55;
+    color: #ffffff;
+    padding: 72px 0 56px;
+    margin: 0 -40px 0;                /* plus de marge en bas */
+    min-height: calc(100vh - 80px);   /* occupe toute la hauteur sous la navbar */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;          /* centre le bloc images+texte+bottom dans la hauteur */
+}
+
+@media (max-width: 1024px) {
+    .eco-hero {
+        margin: 0 -16px 0;
+        padding: 56px 0 40px;
+        min-height: calc(100vh - 72px);
+    }
+}
+
+.eco-hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    gap: 56px;
+}
+
+@media (max-width: 900px) {
+    .eco-hero-inner {
+        flex-direction: column;
+        padding: 0 24px;
+    }
+}
+
+/* Colonne gauche : images */
+
+.eco-hero-visual {
+    flex: 1.1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.eco-hero-img-main {
+    width: 550px;
+    max-width: 100%;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.25);
+}
+
+.eco-hero-img-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.eco-hero-img-secondary {
+    position: absolute;
+    right: -32px;
+    top: -32px;
+    width: 280px;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.25);
+    transform: rotate(4deg);
+}
+
+.eco-hero-img-secondary img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 900px) {
+    .eco-hero-img-secondary {
+        right: -8px;
+        top: -20px;
+        width: 160px;
+    }
+}
+
+/* Colonne droite : texte */
+
+.eco-hero-text {
+    flex: 1;
+    max-width: 520px;
+}
+
+.eco-hero-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 22px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.eco-hero-hello {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.eco-hero-lead {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 34rem;
+}
+
+.eco-hero-bullets {
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.eco-hero-bullets strong {
+    font-weight: 700;
+}
+
+/* Bandeau bas façon "SHOP NOW" */
+
+.eco-hero-bottom {
+    max-width: 1200px;
+    margin: 56px auto 0;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .eco-hero-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 24px;
+        margin-top: 40px;
+    }
+}
+
+.eco-hero-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: baseline;
+}
+
+.eco-hero-word {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.eco-hero-word.word-1 {
+    font-size: clamp(40px, 4.5vw, 64px);
+}
+
+.eco-hero-word.word-2 {
+    font-size: clamp(36px, 4vw, 56px);
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.9);
+    color: transparent;
+}
+
+.eco-hero-bottom-cta {
+    text-align: right;
+    max-width: 340px;
+}
+
+@media (max-width: 900px) {
+    .eco-hero-bottom-cta {
+        text-align: left;
+        max-width: 100%;
+    }
+}
+
+.eco-hero-bottom-text {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.eco-hero-arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    padding-bottom: 3px;
+}
+
+.eco-hero-arrow-link:hover {
+    border-bottom-color: #ffffff;
+}
+
+.eco-hero-arrow {
+    font-size: 20px;
+    line-height: 1;
+    transform: translateY(1px);
+}
+
+
+
+
+.stats-wrapper {
+    max-width: 1150px;
+    margin: 28px auto 40px;
+    padding: 0 16px;
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stats-title-block h1 {
+    margin: 0 0 4px;
+    font-size: 24px;
+    color: #022B3A;
+}
+
+.stats-title-block p {
+    margin: 0;
+    font-size: 14px;
+    color: #4f5b66;
+}
+
+.stats-badge {
+    align-self: flex-start;
+    background: rgba(6,102,140,0.06);
+    color: #06668C;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stats-badge strong {
+    font-weight: 600;
+}
+
+/* Filtres périmètre */
+.filter-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 14px 18px;
+    box-shadow: 0 10px 28px rgba(6,102,140,0.12);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-card label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #022B3A;
+}
+
+.filter-select {
+    min-width: 180px;
+    border-radius: 999px;
+    border: 1px solid #d1d9e6;
+    padding: 8px 14px;
+    font-size: 14px;
+    background: #F8FAFD;
+    outline: none;
+}
+
+.filter-select:focus {
+    border-color: #06668C;
+    box-shadow: 0 0 0 3px rgba(6,102,140,0.16);
+    background: #ffffff;
+}
+
+.btn-filter-primary {
+    border-radius: 999px;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #06668C, #427AA1);
+    color: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(6,102,140,0.28);
+}
+
+.btn-filter-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(6,102,140,0.35);
+}
+
+.btn-filter-reset {
+    border-radius: 999px;
+    border: 1px solid rgba(6,102,140,0.2);
+    padding: 8px 14px;
+    font-size: 13px;
+    background: #ffffff;
+    color: #06668C;
+    text-decoration: none;
+}
+
+.btn-filter-reset:hover {
+    background: #F4F8FC;
+}
+
+.perimetre-info {
+    margin-bottom: 18px;
+    font-size: 14px;
+    color: #4f5b66;
+}
+
+/* KPI cards */
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 26px;
+}
+
+.kpi-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 14px 16px 16px;
+    box-shadow: 0 12px 32px rgba(6,102,140,0.10);
+}
+
+.kpi-label {
+    font-size: 13px;
+    color: #6b7785;
+    margin-bottom: 6px;
+}
+
+.kpi-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #022B3A;
+}
+
+.kpi-tag {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    background: #EBF2FA;
+    color: #06668C;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+/* Sections & tables */
+.stats-section {
+    margin-bottom: 26px;
+}
+
+.stats-section h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: #022B3A;
+}
+
+.stats-section p.section-subtitle {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: #6b7785;
+}
+
+.empty-text {
+    font-size: 13px;
+    color: #7b8794;
+}
+
+.table-wrap {
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 26px rgba(6,102,140,0.08);
+    padding: 10px 12px 12px;
+    overflow-x: auto;
+}
+
+table.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+table.stats-table thead {
+    background: #F4F8FC;
+}
+
+table.stats-table th,
+table.stats-table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #ECF0F6;
+}
+
+table.stats-table th {
+    font-size: 12px;
+    font-weight: 600;
+    color: #5b6574;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+table.stats-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+table.stats-table tbody tr:hover {
+    background: #F9FBFE;
+}
+
+/* Highlight columns */
+.col-number {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.badge-role {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge-role-agent {
+    background: #EBF2FA;
+    color: #06668C;
+}
+
+.badge-role-chef {
+    background: #FFF4CC;
+    color: #A47A00;
+}
+
+.badge-role-gestionnaire {
+    background: #E4F4DA;
+    color: #2F7E27;
+}
+
+@media (max-width: 768px) {
+    .kpi-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .stats-section {
+        padding: 18px 16px 16px;
+        border-radius: 18px;
+    }
+
+    .eco-hero-img-main {
+        width: 100%;
+    }
+
+    .stats-section h2 {
+        font-size: 18px;
+    }
+
+    .section-subtitle {
+        font-size: 12px;
+    }
+
+    .table-wrap {
+        margin: 8px -8px 0;
+        padding: 0 8px 4px;
+        border-radius: 16px;
+    }
+
+    .stats-table th,
+    .stats-table td {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    .stats-header {
+        margin-bottom: 20px;
+        flex-direction: column;
+    }
+}
+
+/* --- Page utilisation des points ------------------------------------- */
+
+.points-page {
+    max-width: 960px;
+    margin: 32px auto;
+    padding: 24px;
+    border-radius: 24px;
+    background: radial-gradient(circle at top left, #e0f2fe 0, #f8fafc 40%, #ffffff 100%);
+}
+
+.points-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 24px;
+}
+
+.points-summary-card {
+    padding: 20px 24px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 24px;
+}
+
+.points-summary-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin-bottom: 6px;
+}
+
+.points-summary-value {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #15803d;
+    margin-bottom: 8px;
+}
+
+.points-summary-rate {
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+/* Formulaire */
+
+.points-form {
+    margin-top: 24px;
+    padding: 24px 24px 28px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.10);
+    border: 1px solid #e2e8f0;
+}
+
+.points-form .form-row {
+    margin-bottom: 18px;
+}
+
+.points-form label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.points-form input[type="number"],
+.points-form input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 0.95rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.points-form input[type="number"]:focus,
+.points-form input[type="text"]:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 1px #2563eb33;
+    background: #ffffff;
+}
+
+.points-form .help-text {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-top: 6px;
+}
+
+.points-form .divider {
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+    margin: 20px 0;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.checkbox-row label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #334155;
+}
+
+.checkbox-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+.points-form .form-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Boutons (si tu n’as pas déjà ces classes) */
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #70be55, #53945c);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 18px 45px rgba(37, 99, 235, 0.35);
+    transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+    box-shadow: 0 22px 55px rgba(22, 163, 74, 0.40);
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    border-radius: 999px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #0f172a;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s;
+}
+
+.btn-secondary:hover {
+    background: #eff6ff;
+    border-color: #93c5fd;
+}
+
+/* Alertes */
+
+.alert {
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+}
+
+.alert-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+}
+
+.alert-success {
+    background: #ecfdf3;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+/* --- Page confirmation ----------------------------------------------- */
+
+.points-confirm-page {
+    max-width: 620px;
+    margin: 40px auto;
+    padding: 28px 24px 32px;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.15);
+    border: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+.points-confirm-page h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.points-confirm-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    background: #dcfce7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #15803d;
+    font-size: 32px;
+}
+
+.points-confirm-page p {
+    font-size: 0.98rem;
+    color: #4b5563;
+    margin-bottom: 12px;
+}
+
+.points-confirm-page p strong {
+    color: #111827;
+}
+
+.points-confirm-page .btn-secondary {
+    margin-top: 12px;
+}
+
+/* ================================
+   DASHBOARD CITOYEN
+   ================================ */
+
+.citoyen-wrapper {
+    max-width: 1150px;
+    margin: 32px auto 48px;
+    padding: 0 16px;
+}
+
+.citoyen-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);
+    gap: 22px;
+    align-items: flex-start;
+}
+
+.citoyen-card {
+    border-radius: 20px;
+}
+
+/* ajustement des colonnes sur mobile */
+@media (max-width: 900px) {
+    .citoyen-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .citoyen-wrapper {
+        margin-top: 24px;
+    }
+}
+
+/* --- Résumé points (colonne droite) ------------------------------- */
+
+.points-resume-card {
+    border-radius: 20px;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+}
+
+.points-resume-body {
+    padding: 10px 18px 18px;
+}
+
+.points-resume-body .points-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #15803d;
+    margin-bottom: 4px;
+}
+
+.points-mini-block {
+    margin-top: 10px;
+}
+
+.points-bar-mini .points-bar-bg {
+    height: 8px;
+    border-radius: 999px;
+}
+
+.points-mini-caption {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 6px 0 0;
+}
+
+/* Lien vers la section d’utilisation des points */
+.btn-link-points {
+    display: inline-flex;
+    margin-top: 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #166534;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(22, 101, 52, 0.3);
+    padding-bottom: 2px;
+}
+
+.btn-link-points:hover {
+    border-bottom-color: #166534;
+}
+
+/* --- Section points en bas de page ------------------------------- */
+
+#points {
+    margin-top: 40px;
+}
+
+/* Un peu plus d’air autour dans le contexte dashboard */
+.citoyen-wrapper .points-page {
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+
+/* =============================
+   SECTION RÉASSURANCE ACCUEIL
+   ============================= */
+
+.home-reassurance {
+    background: #f5f7fa;
+    padding: 40px 0 56px;
+}
+
+.home-reassurance-inner {
+    max-width: 1150px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.home-reassurance-head h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    color: #022B3A;
+}
+
+.home-reassurance-head p {
+    margin: 0 0 24px;
+    font-size: 15px;
+    color: #4b5563;
+    max-width: 720px;
+}
+
+/* Cartes de chiffres */
+
+.home-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.home-stat-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 16px 18px 18px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+    border: 1px solid #e5e7eb;
+}
+
+.home-stat-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+    margin: 0 0 6px;
+}
+
+.home-stat-value {
+    margin: 0 0 6px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #15803d;
+}
+
+.home-stat-caption {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+/* Réassurances */
+
+.home-reassurance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 8px;
+}
+
+.home-reassurance-item {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 14px 16px 16px;
+    border: 1px solid #e5e7eb;
+}
+
+.home-reassurance-item h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    color: #022B3A;
+}
+
+.home-reassurance-item p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #4b5563;
+}
+
+@media (max-width: 900px) {
+    .home-stats-grid,
+    .home-reassurance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .home-reassurance-inner {
+        padding: 0 16px;
+    }
+}

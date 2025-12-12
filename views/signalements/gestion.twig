@@ -1,0 +1,125 @@
+{% extends "layout.twig" %}
+
+{% block title %}Gestion des signalements{% endblock %}
+
+{% block content %}
+    <div class="gestion-wrapper">
+
+        {# récupération user/role #}
+        {% if session is defined and session.user is defined %}
+            {% set user = session.user %}
+            {% set role = user.role %}
+        {% else %}
+            {% set user = null %}
+            {% set role = null %}
+        {% endif %}
+
+        <div class="gestion-header">
+            <div>
+                <h1 class="gestion-title">Gestion des signalements</h1>
+                <p class="gestion-subtitle">
+                    Visualisez et mettez à jour les signalements en fonction de votre périmètre.
+                </p>
+            </div>
+
+            {% if role %}
+                <div class="badge-role">
+                    🛠️ Rôle : <strong>{{ role }}</strong>
+                </div>
+            {% endif %}
+        </div>
+
+        {# FILTRE VILLE GESTIONNAIRE #}
+        {% if role == 'gestionnaire' %}
+            <form method="get" action="/signalements/gestion" class="filter-bar">
+                <label for="ville">Filtrer par ville :</label>
+                <select id="ville" name="ville" class="filter-select" onchange="this.form.submit()">
+                    <option value="">Toutes les villes</option>
+                    {% for v in villes %}
+                        <option value="{{ v }}"
+                                {% if currentVilleFilter == v %}selected{% endif %}>
+                            {{ v }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <noscript>
+                    <button type="submit" class="btn-update" style="padding:6px 16px;">Filtrer</button>
+                </noscript>
+            </form>
+        {% else %}
+            {% if user and user.perimetreVille %}
+                <p class="perimetre-info">
+                    📍 <strong>Périmètre :</strong> {{ user.perimetreVille }}
+                </p>
+            {% endif %}
+        {% endif %}
+
+        <div class="signals-card">
+            {% if signalements.length == 0 %}
+                <p class="no-data">Aucun signalement trouvé.</p>
+            {% else %}
+                <div class="table-wrapper">
+                    <table class="signals-table">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Ville</th>
+                            <th>Adresse</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Citoyen</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for s in signalements %}
+                            {% set badgeClass = 'statut-' ~ s.statut %}
+                            <tr>
+                                <td>{{ s.dateSignalement|date('d/m/Y H:i') }}</td>
+                                <td>{{ s.ville }}</td>
+                                <td>{{ s.adresse }}</td>
+                                <td>{{ s.typeEncombrant }}</td>
+                                <td>{{ s.description }}</td>
+                                <td>
+                                    {% if s.citoyen %}
+                                        <a href="/signalements/citoyen/{{ s.citoyen._id }}" class="citoyen-link">
+                                            {{ s.citoyen.name }}
+                                        </a><br>
+                                        <span style="font-size:12px; color:#6b7785;">
+                                        {{ s.citoyen.email }}
+                                    </span>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                <span class="status-badge {{ badgeClass }}">
+                                    {{ s.statut }}
+                                </span>
+                                </td>
+
+                                <td>
+                                    <form method="post"
+                                          class="status-form"
+                                          action="/signalements/{{ s._id }}/statut{% if currentVilleFilter %}?ville={{ currentVilleFilter }}{% endif %}">
+                                        <select name="statut" class="status-select">
+                                            <option value="signale"   {% if s.statut == 'signale' %}selected{% endif %}>Signalé</option>
+                                            <option value="valide"    {% if s.statut == 'valide' %}selected{% endif %}>Validé</option>
+                                            <option value="en_cours"  {% if s.statut == 'en_cours' %}selected{% endif %}>En cours</option>
+                                            <option value="collecte"  {% if s.statut == 'collecte' %}selected{% endif %}>Collecté</option>
+                                        </select>
+                                        <button type="submit" class="btn-update">Mettre à jour</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
