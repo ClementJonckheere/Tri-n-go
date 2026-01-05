@@ -21,7 +21,7 @@ router.get('/admin/utilisateurs', (req, res) => {
 });
 
 // Création Agent
-router.get('/admin/agents/nouveau', usersController.showCreateAgentForm);
+router.get('/admin/agents/new', usersController.showCreateAgentForm);
 router.post('/admin/agents', usersController.createAgent);
 
 // Edition / suppression

@@ -1,0 +1,108 @@
+/* ===========================
+   Page création agent / chef
+   =========================== */
+
+.admin-form-page {
+    max-width: 900px;
+    margin: 32px auto 48px;
+    padding: 0 16px;
+}
+
+.admin-form-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 26px 28px 28px;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.15);
+    border: 1px solid #e2e8f0;
+}
+
+.admin-form-header h1 {
+    margin: 0 0 6px;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #111827;
+}
+
+.admin-form-header p {
+    margin: 0 0 20px;
+    font-size: 0.95rem;
+    color: #6b7280;
+}
+
+.admin-form-alert {
+    margin: 0 0 16px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+}
+
+/* Grille du formulaire */
+
+.admin-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 24px;
+}
+
+.admin-form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-form-field-full {
+    grid-column: 1 / -1;
+}
+
+/* Labels + inputs */
+
+.admin-form-field label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.admin-form-field input,
+.admin-form-field select {
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    padding: 9px 11px;
+    font-size: 0.95rem;
+    background: #f9fafb;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.admin-form-field input::placeholder {
+    color: #9ca3af;
+}
+
+.admin-form-field input:focus,
+.admin-form-field select:focus {
+    outline: none;
+    border-color: #06668C;
+    background: #ffffff;
+    box-shadow: 0 0 0 1px #06668C33;
+}
+
+/* Actions */
+
+.admin-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+    .admin-form {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-form-card {
+        padding: 22px 18px 24px;
+        border-radius: 20px;
+    }
+}

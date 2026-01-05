@@ -1,93 +1,240 @@
+{# views/users/list.twig #}
+{% extends "layout.twig" %}
+
+{% block title %}Gestion des utilisateurs - Tri’n Go{% endblock %}
+
 {% block content %}
-    <div class="signalements-header">
-        <div>
-            <h1 class="signalements-title">Mes signalements</h1>
-            <p class="signalements-subtitle">
-                Retrouve ici l’historique de tes déclarations d’encombrants.
-            </p>
-        </div>
-
-        <div class="points-card">
-            <div class="points-card-header">
-                <span class="points-card-label">Vos points Tri’n Go</span>
+    <div class="stats-wrapper">
+        {# HEADER #}
+        <div class="stats-header">
+            <div class="stats-title-block">
+                <h1>Gestion des utilisateurs</h1>
+                <p>
+                    Visualise et administre les comptes
+                    <strong>citoyens</strong>, <strong>agents</strong> et <strong>chefs d’agent</strong>.
+                </p>
             </div>
 
-            <div class="points-card">
-                <h2>Vos points Tri’n Go</h2>
-
-                <p class="points-value">{{ pointsTotal }} pts</p>
-
-                <p class="points-subtitle">
-                    Valeur actuelle :
-                    {{ cashbackValue|number_format(2, ',', ' ') }} €
-                    ({{ (cashbackRate * 100)|number_format(0, '', ' ') }} cts / point)
-                </p>
-
-                <p class="points-text">
-                    Chaque signalement validé vous rapporte des points.
-                    Ils valorisent votre participation à la propreté de la ville.
-                </p>
-
-                <div class="points-progress">
-                    <div class="points-progress-bar">
-                        <span class="points-progress-fill" style="width: {{ progression }}%;"></span>
-                    </div>
-                    <p class="points-next">Prochain palier : {{ nextPalier }} points</p>
-                </div>
-
-                <div class="points-actions">
-                    <a href="/points/utiliser" class="btn-secondary">
-                        Utiliser mes points pour une collecte
-                    </a>
-                </div>
+            <div class="stats-badge">
+                👤 Espace gestionnaire – administration des comptes
             </div>
         </div>
-    </div>
-            {# on garde ensuite ton tableau existant, avec juste un léger wrapper #}
-    {% if signalements.length == 0 %}
-        <p>Aucun signalement pour le moment.</p>
-    {% else %}
-        <div class="signalements-table-wrapper">
-            <table class="signalements-table">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Ville</th>
-                    <th>Code postal</th>
-                    <th>Adresse</th>
-                    <th>Photo</th>
-                    <th>Statut</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for s in signalements %}
-                    <tr>
-                        <td>{{ s.dateSignalement|date('d/m/Y H:i') }}</td>
-                        <td>{{ s.typeEncombrant }}</td>
-                        <td>{{ s.description }}</td>
-                        <td>{{ s.ville }}</td>
-                        <td>{{ s.codePostal }}</td>
-                        <td>{{ s.adresse }}</td>
-                        <td>
-                            {% if s.photoFilename %}
-                                <img src="/uploads/{{ s.photoFilename }}"
-                                     alt="Photo de l’encombrant"
-                                     class="signalement-photo">
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
-                        <td>
-              <span class="statut-badge statut-{{ s.statut }}">
-                {{ s.statut|capitalize }}
-              </span>
-                        </td>
-                    </tr>
+
+        {# FILTRE PÉRIMÈTRE (VILLE) #}
+        <form method="get" action="/admin/utilisateurs" class="filter-card">
+            <label for="perimetreVille">Filtrer par ville / périmètre :</label>
+
+            <select id="perimetreVille" name="perimetreVille" class="filter-select">
+                <option value="">Tous les périmètres</option>
+                {% for p in perimetres %}
+                    <option value="{{ p }}"
+                            {% if currentPerimetreFilter and currentPerimetreFilter == p %}selected{% endif %}>
+                        {{ p }}
+                    </option>
                 {% endfor %}
-                </tbody>
-            </table>
+            </select>
+
+            <button type="submit" class="btn-filter-primary">
+                Appliquer le filtre
+            </button>
+
+            {% if currentPerimetreFilter %}
+                <a href="/admin/utilisateurs" class="btn-filter-reset">
+                    Réinitialiser
+                </a>
+            {% endif %}
+        </form>
+
+        {# BOUTON CRÉATION D’AGENT / CHEF #}
+        <div style="margin-bottom: 20px; display:flex; justify-content:flex-end;">
+            <a href="/admin/agents/new" class="btn btn-primary">
+                + Créer un agent / chef d’agent
+            </a>
         </div>
-    {% endif %}
+
+        {# SECTION AGENTS / CHEFS / GESTIONNAIRES #}
+        <section class="stats-section">
+            <h2>Agents & chefs d’agent</h2>
+            <p class="section-subtitle">
+                Comptes opérationnels en charge du traitement des signalements.
+            </p>
+
+            {% if agents and agents.length > 0 %}
+                <div class="table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th>Ville / périmètre</th>
+                            <th>Statut</th>
+                            <th style="width: 140px;">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for u in agents %}
+                            <tr>
+                                <td>{{ u.name }}</td>
+                                <td>{{ u.email }}</td>
+
+                                <td>
+                                    {% if u.role == 'agent' %}
+                                        <span class="badge-role badge-role-agent">Agent</span>
+                                    {% elseif u.role == 'chef_agent' %}
+                                        <span class="badge-role badge-role-chef">Chef d’agent</span>
+                                    {% elseif u.role == 'gestionnaire' %}
+                                        <span class="badge-role badge-role-gestionnaire">Gestionnaire</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{ u.perimetreVille is defined and u.perimetreVille
+                                    ? u.perimetreVille
+                                    : '—' }}
+                                </td>
+
+                                <td>
+                                    {% if u.isActive %}
+                                        <span style="color:#16a34a;font-weight:600;">Actif</span>
+                                    {% else %}
+                                        <span style="color:#b91c1c;font-weight:600;">Désactivé</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <div style="display:flex; gap:6px; align-items:center;">
+                                        <a href="/admin/utilisateurs/{{ u._id }}/edit"
+                                           class="btn btn-text">
+                                            Modifier
+                                        </a>
+
+                                        <form method="post"
+                                              action="/admin/utilisateurs/{{ u._id }}/delete"
+                                              onsubmit="return confirm('Supprimer cet utilisateur ?');">
+                                            <button type="submit"
+                                                    class="btn btn-outline"
+                                                    style="padding:4px 10px;font-size:12px;">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {# PAGINATION AGENTS #}
+                <div style="margin-top: 10px; display:flex; justify-content:flex-end; gap:8px; font-size:13px;">
+                    {% if agentsPage > 1 %}
+                        <a href="/admin/utilisateurs?pageAgents={{ agentsPage - 1 }}{% if currentPerimetreFilter %}&perimetreVille={{ currentPerimetreFilter }}{% endif %}">
+                            ← Page précédente
+                        </a>
+                    {% endif %}
+
+                    <span>Page {{ agentsPage }} / {{ agentsTotalPages }}</span>
+
+                    {% if agentsPage < agentsTotalPages %}
+                        <a href="/admin/utilisateurs?pageAgents={{ agentsPage + 1 }}{% if currentPerimetreFilter %}&perimetreVille={{ currentPerimetreFilter }}{% endif %}">
+                            Page suivante →
+                        </a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p class="empty-text">
+                    Aucun agent ou chef d’agent trouvé pour ce périmètre.
+                    Utilise le bouton « Créer un agent / chef d’agent » pour ajouter un compte.
+                </p>
+            {% endif %}
+        </section>
+
+        {# SECTION CITOYENS #}
+        <section class="stats-section" style="margin-top:32px;">
+            <h2>Citoyens</h2>
+            <p class="section-subtitle">
+                Comptes citoyens pouvant déclarer des encombrants via Tri’n Go.
+            </p>
+
+            {% if citoyens and citoyens.length > 0 %}
+                <div class="table-wrap">
+                    <table class="stats-table">
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Ville / périmètre</th>
+                            <th>Points</th>
+                            <th>Statut</th>
+                            <th style="width: 140px;">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for c in citoyens %}
+                            <tr>
+                                <td>{{ c.name }}</td>
+                                <td>{{ c.email }}</td>
+                                <td>
+                                    {{ c.perimetreVille is defined and c.perimetreVille
+                                    ? c.perimetreVille
+                                    : '—' }}
+                                </td>
+                                <td class="col-number">
+                                    {{ c.pointsTotal|default(0) }}
+                                </td>
+                                <td>
+                                    {% if c.isActive %}
+                                        <span style="color:#16a34a;font-weight:600;">Actif</span>
+                                    {% else %}
+                                        <span style="color:#b91c1c;font-weight:600;">Désactivé</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div style="display:flex; gap:6px; align-items:center;">
+                                        <a href="/admin/utilisateurs/{{ c._id }}/edit"
+                                           class="btn btn-text">
+                                            Modifier
+                                        </a>
+
+                                        <form method="post"
+                                              action="/admin/utilisateurs/{{ c._id }}/delete"
+                                              onsubmit="return confirm('Supprimer cet utilisateur ?');">
+                                            <button type="submit"
+                                                    class="btn btn-outline"
+                                                    style="padding:4px 10px;font-size:12px;">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                {# PAGINATION CITOYENS #}
+                <div style="margin-top: 10px; display:flex; justify-content:flex-end; gap:8px; font-size:13px;">
+                    {% if citoyensPage > 1 %}
+                        <a href="/admin/utilisateurs?pageCitoyens={{ citoyensPage - 1 }}{% if currentPerimetreFilter %}&perimetreVille={{ currentPerimetreFilter }}{% endif %}">
+                            ← Page précédente
+                        </a>
+                    {% endif %}
+
+                    <span>Page {{ citoyensPage }} / {{ citoyensTotalPages }}</span>
+
+                    {% if citoyensPage < citoyensTotalPages %}
+                        <a href="/admin/utilisateurs?pageCitoyens={{ citoyensPage + 1 }}{% if currentPerimetreFilter %}&perimetreVille={{ currentPerimetreFilter }}{% endif %}">
+                            Page suivante →
+                        </a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p class="empty-text">
+                    Aucun citoyen trouvé pour ce périmètre.
+                </p>
+            {% endif %}
+        </section>
+    </div>
 {% endblock %}
