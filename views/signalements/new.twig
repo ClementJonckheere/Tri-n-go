@@ -1,4 +1,3 @@
-{# views/signalements/new.twig #}
 {% extends "layout.twig" %}
 
 {% block title %}Déclarer un encombrant{% endblock %}
@@ -70,7 +69,6 @@
                   required
                   value="{{ currentUser.adresse or '' }}"
           >
-          {# la liste d’autocomplétion est générée en JS, pas besoin de div ici #}
         </div>
       </div>
 

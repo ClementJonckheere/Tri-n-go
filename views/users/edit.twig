@@ -31,7 +31,6 @@
             </label>
         </div>
 
-        {# Points uniquement pour les citoyens #}
         {% if editUser.role == 'citoyen' %}
             <div>
                 <label for="pointsTotal">Points (citoyen)</label><br>
@@ -47,7 +46,6 @@
                    value="{{ editUser.perimetreVille }}">
         </div>
 
-        {# Chef d’agent pour un AGENT #}
         {% if editUser.role == 'agent' %}
             <div>
                 <label for="chefAgentId">Chef d’agent</label><br>
@@ -65,7 +63,6 @@
             </div>
         {% endif %}
 
-        {# Équipe d’un chef d’agent #}
         {% if editUser.role == 'chef_agent' %}
             <div style="margin-top: 20px;">
                 <p><strong>Équipe d’agents rattachés à {{ editUser.name }} :</strong></p>
