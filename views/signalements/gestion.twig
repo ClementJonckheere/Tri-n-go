@@ -4,6 +4,8 @@
 
 {% block content %}
     <div class="gestion-wrapper">
+
+        {# récupération user/role #}
         {% if session is defined and session.user is defined %}
             {% set user = session.user %}
             {% set role = user.role %}
@@ -20,8 +22,14 @@
                 </p>
             </div>
 
+            {% if role %}
+                <div class="badge-role">
+                    🛠️ Rôle : <strong>{{ role }}</strong>
+                </div>
+            {% endif %}
         </div>
 
+        {# FILTRE VILLE GESTIONNAIRE #}
         {% if role == 'gestionnaire' %}
             <form method="get" action="/signalements/gestion" class="filter-bar">
                 <label for="ville">Filtrer par ville :</label>
@@ -41,7 +49,7 @@
         {% else %}
             {% if user and user.perimetreVille %}
                 <p class="perimetre-info">
-                    <strong>Périmètre :</strong> {{ user.perimetreVille }}
+                    📍 <strong>Périmètre :</strong> {{ user.perimetreVille }}
                 </p>
             {% endif %}
         {% endif %}

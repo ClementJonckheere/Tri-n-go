@@ -1,11 +1,9 @@
-{# views/users/list.twig #}
 {% extends "layout.twig" %}
 
 {% block title %}Gestion des utilisateurs - Tri’n Go{% endblock %}
 
 {% block content %}
     <div class="stats-wrapper">
-        {# HEADER #}
         <div class="stats-header">
             <div class="stats-title-block">
                 <h1>Gestion des utilisateurs</h1>
@@ -14,13 +12,8 @@
                     <strong>citoyens</strong>, <strong>agents</strong> et <strong>chefs d’agent</strong>.
                 </p>
             </div>
-
-            <div class="stats-badge">
-                👤 Espace gestionnaire – administration des comptes
-            </div>
         </div>
 
-        {# FILTRE PÉRIMÈTRE (VILLE) #}
         <form method="get" action="/admin/utilisateurs" class="filter-card">
             <label for="perimetreVille">Filtrer par ville / périmètre :</label>
 
@@ -44,8 +37,6 @@
                 </a>
             {% endif %}
         </form>
-
-        {# BOUTON CRÉATION D’AGENT / CHEF #}
         <div style="margin-bottom: 20px; display:flex; justify-content:flex-end;">
             <a href="/admin/agents/new" class="btn btn-primary">
                 + Créer un agent / chef d’agent
