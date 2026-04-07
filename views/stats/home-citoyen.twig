@@ -8,10 +8,8 @@
     {% set isLoggedIn = session is defined and session.user is defined %}
     {% set isCitoyen = isLoggedIn and session.user.role == 'citoyen' %}
 
-    {# HERO ÉCO FULL-WIDTH #}
     <section class="eco-hero">
         <div class="eco-hero-inner">
-            {# Colonne gauche : les images #}
             <div class="eco-hero-visual">
                 <div class="eco-hero-img-main">
                     <img src="/images/ordure.png" alt="Camion de collecte des déchets en ville">
@@ -21,7 +19,6 @@
                 </div>
             </div>
 
-            {# Colonne droite : le texte #}
             <div class="eco-hero-text">
                 <div class="eco-hero-pill">POUR UNE VILLE PLUS PROPRE</div>
 
@@ -46,8 +43,6 @@
                 </p>
             </div>
         </div>
-
-        {# Bandeau du bas façon "SHOP NOW" #}
         <div class="eco-hero-bottom">
             <div class="eco-hero-words">
                 <span class="eco-hero-word word-1">SIGNALER</span>
@@ -84,7 +79,6 @@
         </div>
     </section>
 
-    {# SECTION RÉASSURANCE + CHIFFRES #}
     <section class="home-reassurance">
         <div class="home-reassurance-inner">
             <div class="home-reassurance-head">
