@@ -1,88 +1,194 @@
 /* =========================
-   FOOTER CITOYEN TRI'N GO
+   FOOTER TRI'N GO - COMPLET
    ========================= */
 
 .site-footer {
-    background: #022B3A;
+    background: linear-gradient(180deg, #022B3A 0%, #011820 100%);
     color: #e5e7eb;
-    padding: 24px 0 12px;
-    margin-top: 32px;
+    padding: 40px 0 0;
+    margin-top: 48px;
 }
 
 .footer-inner {
-    max-width: 1150px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px 8px;
+    padding: 0 24px 24px;
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1.4fr;
-    gap: 24px;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 40px;
 }
 
+/* Colonnes */
 .footer-col h4 {
-    margin: 0 0 6px;
-    font-size: 14px;
-    font-weight: 600;
+    margin: 0 0 16px;
+    font-size: 13px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
+    color: #70be55;
+}
+
+/* Logo */
+.footer-logo {
+    margin: 0 0 12px;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #fff;
+}
+
+.footer-text {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.6;
     color: #9ca3af;
 }
 
-.footer-logo {
-    margin: 0 0 6px;
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #bbf7d0;
+/* Réseaux sociaux */
+.footer-social {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
 }
 
-.footer-text,
-.footer-info p {
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.5;
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
     color: #e5e7eb;
+    transition: all 0.2s ease;
 }
 
+.social-link:hover {
+    background: #70be55;
+    color: #022B3A;
+    transform: translateY(-2px);
+}
+
+/* Liens */
 .footer-links ul {
     list-style: none;
-    margin: 4px 0 0;
+    margin: 0;
     padding: 0;
 }
 
 .footer-links li {
-    margin-bottom: 4px;
+    margin-bottom: 10px;
 }
 
 .footer-links a {
-    font-size: 13px;
-    color: #e5e7eb;
+    font-size: 14px;
+    color: #d1d5db;
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .footer-links a:hover {
-    text-decoration: underline;
+    color: #70be55;
 }
 
-.footer-bottom {
-    max-width: 1150px;
-    margin: 8px auto 0;
-    padding: 8px 24px 0;
-    border-top: 1px solid rgba(148, 163, 184, 0.4);
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 12px;
+/* Info */
+.footer-info p {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.6;
     color: #9ca3af;
 }
 
-@media (max-width: 900px) {
+.footer-contact {
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.footer-contact a {
+    color: #70be55;
+    text-decoration: none;
+}
+
+.footer-contact a:hover {
+    text-decoration: underline;
+}
+
+/* Barre du bas */
+.footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.footer-bottom-left,
+.footer-bottom-center,
+.footer-bottom-right {
+    flex: 1;
+}
+
+.footer-bottom-center {
+    text-align: center;
+}
+
+.footer-bottom-right {
+    text-align: right;
+}
+
+.footer-bottom-right a {
+    color: #9ca3af;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-bottom-right a:hover {
+    color: #70be55;
+}
+
+.footer-bottom-right .separator {
+    margin: 0 8px;
+    color: #4b5563;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+}
+
+@media (max-width: 640px) {
+    .site-footer {
+        padding: 32px 0 0;
+        margin-top: 32px;
+    }
+
     .footer-inner {
         grid-template-columns: 1fr;
+        gap: 24px;
+        text-align: center;
+    }
+
+    .footer-social {
+        justify-content: center;
     }
 
     .footer-bottom {
         flex-direction: column;
-        align-items: flex-start;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .footer-bottom-left,
+    .footer-bottom-center,
+    .footer-bottom-right {
+        text-align: center;
     }
 }

@@ -1,0 +1,126 @@
+{% extends 'layout.twig' %}
+
+{% block title %}FAQ - Tri'n Go{% endblock %}
+
+{% block content %}
+    <div class="cgu-page">
+        <div class="cgu-container faq-container">
+            <h1>Questions fréquentes</h1>
+            <p class="cgu-updated">Trouvez rapidement les réponses à vos questions</p>
+
+            <div class="faq-list">
+                {% for faq in faqs %}
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span class="faq-icon">❓</span>
+                            {{ faq.question }}
+                            <span class="faq-arrow">▼</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>{{ faq.answer }}</p>
+                        </div>
+                    </details>
+                {% else %}
+                    {# Si pas de FAQs passées, afficher des FAQs par défaut #}
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span class="faq-icon">❓</span>
+                            Comment signaler un encombrant ?
+                            <span class="faq-arrow">▼</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>Connectez-vous à votre compte, cliquez sur "Déclarer un encombrant", remplissez le formulaire avec l'adresse précise et une photo si possible, puis validez.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span class="faq-icon">❓</span>
+                            Comment fonctionnent les points ?
+                            <span class="faq-arrow">▼</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>Vous gagnez des points à chaque signalement validé par nos agents. Ces points peuvent être convertis en cashback utilisable dans les déchèteries partenaires.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span class="faq-icon">❓</span>
+                            Combien de temps pour la collecte ?
+                            <span class="faq-arrow">▼</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>Le délai moyen de collecte est de 3 à 5 jours ouvrés après validation du signalement, selon la charge de travail des équipes.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span class="faq-icon">❓</span>
+                            Puis-je modifier un signalement ?
+                            <span class="faq-arrow">▼</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>Une fois soumis, un signalement ne peut pas être modifié. Vous pouvez cependant nous contacter si vous avez fait une erreur.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span class="faq-icon">❓</span>
+                            Comment utiliser mon cashback ?
+                            <span class="faq-arrow">▼</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>Rendez-vous sur la page "Mes points", cliquez sur "Utiliser mon cashback" et suivez les instructions pour générer un bon de réduction.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span class="faq-icon">❓</span>
+                            Mon signalement a été refusé, pourquoi ?
+                            <span class="faq-arrow">▼</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>Un signalement peut être refusé si l'adresse est incorrecte, si l'encombrant a déjà été collecté, ou s'il ne correspond pas aux critères de collecte.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span class="faq-icon">❓</span>
+                            Quels types d'encombrants puis-je signaler ?
+                            <span class="faq-arrow">▼</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>Vous pouvez signaler : meubles, électroménager, déchets verts, plastiques volumineux, bois et verre. Les déchets dangereux (peintures, solvants, etc.) ne sont pas acceptés.</p>
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-question">
+                            <span class="faq-icon">❓</span>
+                            Comment créer un compte ?
+                            <span class="faq-arrow">▼</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <p>Cliquez sur "Créer un compte" en haut de la page, remplissez vos informations (nom, email, adresse) et validez. Vous recevrez un bonus de bienvenue de 50 points !</p>
+                        </div>
+                    </details>
+                {% endfor %}
+            </div>
+
+            <div class="faq-contact">
+                <h2>Vous n'avez pas trouvé votre réponse ?</h2>
+                <p>Notre équipe est là pour vous aider.</p>
+                <a href="/contact" class="btn-contact">Contactez-nous</a>
+            </div>
+
+            <div class="cgu-back">
+                <a href="/" class="btn-back">← Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

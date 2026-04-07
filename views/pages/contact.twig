@@ -1,0 +1,114 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Contactez-nous - Tri'n Go{% endblock %}
+
+{% block content %}
+    <div class="contact-page">
+        <div class="contact-container">
+            <div class="contact-header">
+                <h1>Contactez-nous</h1>
+                <p class="contact-subtitle">
+                    Une question, une suggestion ou un problème ? Notre équipe est là pour vous aider.
+                </p>
+            </div>
+
+            <div class="contact-grid">
+                <!-- Formulaire de contact -->
+                <div class="contact-form-section">
+                    <h2>Envoyez-nous un message</h2>
+
+                    {% if success %}
+                        <div class="alert alert-success">
+                            Votre message a bien été envoyé. Nous vous répondrons dans les plus brefs délais.
+                        </div>
+                    {% endif %}
+
+                    {% if error %}
+                        <div class="alert alert-error">
+                            ❌ {{ error }}
+                        </div>
+                    {% endif %}
+
+                    <form action="/contact" method="POST" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Nom complet <span class="required">*</span></label>
+                            <input type="text" id="name" name="name" required
+                                   value="{{ user.name|default('') }}"
+                                   placeholder="Votre nom">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required
+                                   value="{{ user.email|default('') }}"
+                                   placeholder="votre@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Sujet <span class="required">*</span></label>
+                            <select id="subject" name="subject" required>
+                                <option value="">-- Choisissez un sujet --</option>
+                                <option value="question">Question générale</option>
+                                <option value="signalement">Problème avec un signalement</option>
+                                <option value="compte">Problème de compte</option>
+                                <option value="points">Question sur les points/cashback</option>
+                                <option value="suggestion">Suggestion d'amélioration</option>
+                                <option value="bug">Signaler un bug</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message <span class="required">*</span></label>
+                            <textarea id="message" name="message" rows="6" required
+                                      placeholder="Décrivez votre demande en détail..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit">
+                            Envoyer le message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Informations de contact -->
+                <div class="contact-info-section">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">📧</div>
+                        <h3>Email</h3>
+                        <p>Pour toute question :</p>
+                        <a href="mailto:contact@tringo.fr">contact@tringo.fr</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-card-icon">📍</div>
+                        <h3>Adresse</h3>
+                        <p>
+                            Tri'n Go<br>
+                            123 Rue de l'Environnement<br>
+                            60110 Méru, France
+                        </p>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-card-icon">⏰</div>
+                        <h3>Horaires</h3>
+                        <p>
+                            Lundi - Vendredi<br>
+                            9h00 - 18h00
+                        </p>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-card-icon">❓</div>
+                        <h3>FAQ</h3>
+                        <p>Consultez notre <a href="/faq">Foire aux Questions</a> pour des réponses rapides.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-back">
+                <a href="/" class="btn-back">← Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/dashboard.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/new-user.css">
+    <link rel="stylesheet" href="/css/pages.css">
 </head>
 <body>
 {% if session is defined and session.user is defined %}
@@ -26,11 +27,14 @@
     {% set role = null %}
 {% endif %}
 
+{# Détecter si on est sur login ou register #}
+{% set hideFooter = isAuthPage|default(false) %}
+
 <header class="topbar">
     <div class="nav-container">
         {# Logo / marque #}
         <a href="/" class="brand">
-            <span class="brand-main">Tri’n Go</span>
+            <span class="brand-main">Tri'n Go</span>
         </a>
 
         {# Liens de navigation centraux #}
@@ -43,21 +47,21 @@
             {% if user and role == 'citoyen' %}
                 <a href="/signalements" class="nav-link">Mes signalements</a>
                 <a href="/signalements/nouveau" class="nav-link">Déclarer un encombrant</a>
-                <a href="/dashboard-citoyen" class="nav-link">Tabeau de bord</a
+                <a href="/dashboard-citoyen" class="nav-link">Tableau de bord</a>
             {% endif %}
 
             {% if user and role == 'gestionnaire' %}
-                <a href="/admin/users" class="nav-link">Utilisateurs</a>
+                <a href="/admin/utilisateurs" class="nav-link">Utilisateurs</a>
             {% endif %}
         </nav>
 
         {# Zone droite : Contact + déconnexion / login #}
         <div class="nav-actions">
             {% if user %}
-                <a href="#contact" class="nav-link">Contactez-nous</a>
+                <a href="/contact" class="nav-link">Contactez-nous</a>
                 <a href="/logout" class="btn-logout">Se déconnecter</a>
             {% else %}
-                <a href="#contact" class="nav-link">Contactez-nous</a>
+                <a href="/contact" class="nav-link">Contactez-nous</a>
                 <a href="/login" class="nav-link nav-link-ghost">Connexion</a>
                 <a href="/register" class="btn-logout">Créer un compte</a>
             {% endif %}
@@ -65,45 +69,95 @@
     </div>
 </header>
 
-
-
 <main class="page-main">
     {% block content %}{% endblock %}
 </main>
 
-{% if user and role == 'citoyen' %}
+{# Footer affiché partout SAUF sur login et register #}
+{% if not hideFooter %}
     <footer class="site-footer">
         <div class="footer-inner">
+            {# Colonne 1 : Marque #}
             <div class="footer-col footer-brand">
-                <p class="footer-logo">Tri’n Go</p>
+                <p class="footer-logo">Tri'n Go</p>
                 <p class="footer-text">
                     Une plateforme citoyenne pour déclarer les encombrants,
                     suivre les interventions et rendre la ville plus propre, ensemble.
                 </p>
+                <div class="footer-social">
+                    <a href="#" class="social-link" title="Facebook">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </a>
+                    <a href="#" class="social-link" title="Twitter">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                    </a>
+                    <a href="#" class="social-link" title="LinkedIn">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                </div>
             </div>
 
+            {# Colonne 2 : Navigation #}
             <div class="footer-col footer-links">
                 <h4>Navigation</h4>
                 <ul>
-                    <li><a href="/dashboard-citoyen">Tableau de bord</a></li>
-                    <li><a href="/signalements">Mes signalements</a></li>
-                    <li><a href="/signalements/nouveau">Déclarer un encombrant</a></li>
+                    {% if user and role == 'citoyen' %}
+                        <li><a href="/dashboard-citoyen">Tableau de bord</a></li>
+                        <li><a href="/signalements">Mes signalements</a></li>
+                        <li><a href="/signalements/nouveau">Déclarer un encombrant</a></li>
+                        <li><a href="/points/utiliser">Mes points</a></li>
+                    {% elseif user %}
+                        <li><a href="/">Dashboard</a></li>
+                        <li><a href="/signalements/gestion">Gestion signalements</a></li>
+                        {% if role == 'gestionnaire' %}
+                            <li><a href="/admin/utilisateurs">Utilisateurs</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li><a href="/">Accueil</a></li>
+                        <li><a href="/login">Connexion</a></li>
+                        <li><a href="/register">Inscription</a></li>
+                    {% endif %}
                 </ul>
             </div>
 
+            {# Colonne 3 : Informations légales #}
+            <div class="footer-col footer-links">
+                <h4>Informations</h4>
+                <ul>
+                    <li><a href="/cgu">Conditions Générales d'Utilisation</a></li>
+                    <li><a href="/politique-confidentialite">Politique de confidentialité</a></li>
+                    <li><a href="/contact">Contactez-nous</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                </ul>
+            </div>
+
+            {# Colonne 4 : À propos #}
             <div class="footer-col footer-info">
                 <h4>À propos</h4>
                 <p>
-                    Tri’n Go est un projet pédagogique fictif,
+                    Tri'n Go est un projet pédagogique fictif,
                     imaginé pour illustrer comment le numérique peut accompagner
                     la transition écologique au niveau local.
+                </p>
+                <p class="footer-contact">
+                    📧 <a href="mailto:contact@tringo.fr">contact@tringo.fr</a><br>
+                    📍 60110 Méru, France
                 </p>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <span>© {{ "now"|date("Y") }} Tri’n Go – Démo pédagogique</span>
-            <span>Pour une ville plus propre 🌿</span>
+            <div class="footer-bottom-left">
+                <span>© {{ "now"|date("Y") }} Tri'n Go — Tous droits réservés</span>
+            </div>
+            <div class="footer-bottom-center">
+                <span>Pour une ville plus propre 🌿</span>
+            </div>
+            <div class="footer-bottom-right">
+                <a href="/cgu">CGU</a>
+                <span class="separator">|</span>
+                <a href="/politique-confidentialite">Confidentialité</a>
+            </div>
         </div>
     </footer>
 {% endif %}

@@ -4,12 +4,13 @@ const twig = require('twig');
 const session = require('express-session');;
 const geocodingRouter = require('./routes/geocoding');
 const pointsRoutes = require('./routes/points');
+const pagesRoutes = require('./routes/pages');
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
+// APRÈS (remplacez par)
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: '50mb' }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -38,6 +39,20 @@ const signalementsRouter = require('./routes/signalements');
 const authRouter = require('./routes/auth');
 const {isAuthenticated, requireRole} = require("./middlewares/auth");
 const citoyenRoutes = require('./routes/citoyen');
+const apiRouter = require('./routes/api');
+
+const cors = require('cors');
+
+app.use('/', pagesRoutes);
+
+app.use('/api', cors({
+    origin: '*', // pour dev
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+}));
+
+
+app.use('/api/v1', apiRouter);
 
 app.use('/admin', isAuthenticated, requireRole('gestionnaire'));
 app.use('/', indexRouter);

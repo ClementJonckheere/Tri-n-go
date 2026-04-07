@@ -1,23 +1,25 @@
 #!/usr/bin/env node
+require('dotenv').config();
 
 const http = require('http');
 const mongoose = require('mongoose');
-const app = require('../app'); // app.js est à la racine du projet
+const app = require('../app');
 
-// ====== PORT ======
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-// ====== SERVEUR HTTP ======
 const server = http.createServer(app);
 
-// ====== MONGODB ======
-const dbUri = 'mongodb://127.0.0.1:27017/encombrants?directConnection=true&serverSelectionTimeoutMS=2000';
+const dbUri = process.env.MONGO_URI;
+if (!dbUri) {
+    console.error('MONGO_URI manquant dans .env');
+    process.exit(1);
+}
 
 (async () => {
     try {
         await mongoose.connect(dbUri);
-        console.log('Connecté a MongoDB');
+        console.log('Connecté à MongoDB');
 
         server.listen(port);
         server.on('error', onError);
@@ -28,11 +30,10 @@ const dbUri = 'mongodb://127.0.0.1:27017/encombrants?directConnection=true&serve
     }
 })();
 
-// ====== FONCTIONS UTILITAIRES ======
 function normalizePort(val) {
-    const port = parseInt(val, 10);
-    if (Number.isNaN(port)) return val;
-    if (port >= 0) return port;
+    const p = parseInt(val, 10);
+    if (Number.isNaN(p)) return val;
+    if (p >= 0) return p;
     return false;
 }
 
@@ -56,5 +57,5 @@ function onError(error) {
 function onListening() {
     const addr = server.address();
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    console.log('Serveur écoute sur le port ' + bind);
+    console.log('Serveur écoute sur ' + bind);
 }
