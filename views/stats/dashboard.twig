@@ -7,7 +7,7 @@
         <div class="stats-header">
             <div class="stats-title-block">
                 <h1>Dashboard statistiques</h1>
-                <p>Vue d’ensemble des agents et des clients</p>
+                <p>Vue d'ensemble des agents et des clients</p>
             </div>
 
             {% if not allowPerimetreFilter and perimetreVille %}
@@ -17,7 +17,6 @@
             {% endif %}
         </div>
 
-        {# ------- FILTRE PÉRIMÈTRE ------- #}
         {% if allowPerimetreFilter %}
             <form method="get" action="/" class="filter-card">
                 <label for="perimetreVille">Périmètre (ville) :</label>
@@ -47,7 +46,6 @@
             {% endif %}
         {% endif %}
 
-        {# ------- KPI ------- #}
         <section class="kpi-row">
             <div class="kpi-card">
                 <div class="kpi-label">Total des signalements</div>
@@ -66,71 +64,38 @@
             </div>
         </section>
 
-        {# ------- Volume par mois ------- #}
         <section class="stats-section">
             <h2>Volume de signalements par mois</h2>
             <p class="section-subtitle">
-                Permet de suivre la charge globale et les pics d’activité.
+                Permet de suivre la charge globale et les pics d'activité.
             </p>
 
             {% if volumeParMois.length == 0 %}
                 <p class="empty-text">Aucune donnée disponible pour cette période / ce périmètre.</p>
             {% else %}
-                <div class="table-wrap">
-                    <table class="stats-table">
-                        <thead>
-                        <tr>
-                            <th>Période (YYYY-MM)</th>
-                            <th class="col-number">Nombre de signalements</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for row in volumeParMois %}
-                            <tr>
-                                <td>{{ row.periode }}</td>
-                                <td class="col-number">{{ row.total }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="chart-wrapper">
+                    <canvas id="chartVolumeMois"></canvas>
                 </div>
             {% endif %}
         </section>
 
-        {# ------- Répartition par type ------- #}
         <section class="stats-section">
-            <h2>Répartition par type d’encombrant</h2>
+            <h2>📦 Répartition par type d'encombrant</h2>
             <p class="section-subtitle">
-                Comprendre quels types d’encombrants sont les plus fréquents.
+                Comprendre quels types d'encombrants sont les plus fréquents.
             </p>
 
             {% if repartitionTypes.length == 0 %}
                 <p class="empty-text">Aucune donnée.</p>
             {% else %}
-                <div class="table-wrap">
-                    <table class="stats-table">
-                        <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th class="col-number">Nombre de signalements</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for row in repartitionTypes %}
-                            <tr>
-                                <td>{{ row.type }}</td>
-                                <td class="col-number">{{ row.total }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                <div class="chart-wrapper chart-wrapper-types">
+                    <canvas id="chartTypes"></canvas>
                 </div>
             {% endif %}
         </section>
 
-        {# ------- Classement citoyens ------- #}
         <section class="stats-section">
-            <h2>Top 10 des citoyens par points</h2>
+            <h2>🏆 Top 10 des citoyens par points</h2>
             <p class="section-subtitle">
                 Mets en valeur les citoyens les plus impliqués.
             </p>
@@ -142,6 +107,7 @@
                     <table class="stats-table">
                         <thead>
                         <tr>
+                            <th>Rang</th>
                             <th>Citoyen</th>
                             <th>Email</th>
                             <th class="col-number">Points</th>
@@ -150,9 +116,22 @@
                         <tbody>
                         {% for c in classementCitoyens %}
                             <tr>
+                                <td>
+                                    {% if loop.index == 1 %}
+                                        <span class="rank-badge rank-1">🥇</span>
+                                    {% elseif loop.index == 2 %}
+                                        <span class="rank-badge rank-2">🥈</span>
+                                    {% elseif loop.index == 3 %}
+                                        <span class="rank-badge rank-3">🥉</span>
+                                    {% else %}
+                                        <span class="rank-badge">{{ loop.index }}</span>
+                                    {% endif %}
+                                </td>
                                 <td>{{ c.name }}</td>
                                 <td>{{ c.email }}</td>
-                                <td class="col-number">{{ c.points }}</td>
+                                <td class="col-number">
+                                    <span class="points-value">{{ c.points }} pts</span>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -161,11 +140,10 @@
             {% endif %}
         </section>
 
-        {# ------- Volume par agent ------- #}
         <section class="stats-section">
             <h2>Volume de signalements validés par agent</h2>
             <p class="section-subtitle">
-                Indicateur d’activité par agent et par périmètre.
+                Indicateur d'activité par agent et par périmètre.
             </p>
 
             {% if volumeParAgent.length == 0 %}
@@ -204,4 +182,245 @@
             {% endif %}
         </section>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        const COLORS = {
+            primary: '#022B3A',
+            secondary: '#06668C',
+            green: '#70BE55',
+            orange: '#F59E0B',
+            purple: '#8B5CF6',
+            pink: '#EC4899',
+            cyan: '#06B6D4',
+            red: '#EF4444'
+        };
+
+        const barColors = [
+            COLORS.green,
+            COLORS.secondary,
+            COLORS.orange,
+            COLORS.purple,
+            COLORS.pink,
+            COLORS.cyan,
+            COLORS.red,
+            COLORS.primary
+        ];
+
+        {% if volumeParMois.length > 0 %}
+        (function() {
+            const ctx = document.getElementById('chartVolumeMois').getContext('2d');
+
+            const labels = [{% for row in volumeParMois %}'{{ row.periode }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+            const data = [{% for row in volumeParMois %}{{ row.total }}{% if not loop.last %}, {% endif %}{% endfor %}];
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Signalements',
+                        data: data,
+                        backgroundColor: COLORS.secondary,
+                        borderColor: COLORS.primary,
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: COLORS.primary,
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw + ' signalement' + (context.raw > 1 ? 's' : '');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                font: { size: 12 },
+                                color: '#6b7280'
+                            },
+                            grid: {
+                                color: '#e5e7eb'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 12 },
+                                color: '#374151'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        })();
+        {% endif %}
+
+        // ============ GRAPHIQUE RÉPARTITION PAR TYPE ============
+        {% if repartitionTypes.length > 0 %}
+        (function() {
+            const ctx = document.getElementById('chartTypes').getContext('2d');
+
+            const labels = [{% for row in repartitionTypes %}'{{ row.type }}'{% if not loop.last %}, {% endif %}{% endfor %}];
+            const data = [{% for row in repartitionTypes %}{{ row.total }}{% if not loop.last %}, {% endif %}{% endfor %}];
+
+            const backgroundColors = labels.map((_, i) => barColors[i % barColors.length]);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Nombre',
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderColor: backgroundColors.map(c => c),
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Barres horizontales
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: COLORS.primary,
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 13 },
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.raw + ' signalement' + (context.raw > 1 ? 's' : '');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                font: { size: 12 },
+                                color: '#6b7280'
+                            },
+                            grid: {
+                                color: '#e5e7eb'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: { size: 12, weight: '500' },
+                                color: '#374151'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        })();
+        {% endif %}
+    </script>
+
+    <style>
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-sizing: border-box;
+        }
+
+        .chart-wrapper-types {
+            height: 400px;
+        }
+
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 600;
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .rank-badge.rank-1 {
+            background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+            font-size: 18px;
+        }
+
+        .rank-badge.rank-2 {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            font-size: 18px;
+        }
+
+        .rank-badge.rank-3 {
+            background: linear-gradient(135deg, #fef3c7 0%, #d97706 50%);
+            font-size: 18px;
+        }
+
+        .points-value {
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            color: #059669;
+            font-weight: 600;
+            border-radius: 999px;
+            font-size: 13px;
+        }
+
+
+        @media (max-width: 768px) {
+            .chart-wrapper {
+                height: 300px;
+                padding: 16px;
+            }
+
+            .chart-wrapper-types {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chart-wrapper {
+                height: 250px;
+                padding: 12px;
+            }
+
+            .chart-wrapper-types {
+                height: 300px;
+            }
+        }
+    </style>
 {% endblock %}
